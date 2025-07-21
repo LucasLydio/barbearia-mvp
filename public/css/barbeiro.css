@@ -1,0 +1,130 @@
+/* Body e títulos */
+body {
+  background: #fafafa;
+  font-family: 'Roboto', Arial, sans-serif;
+  color: #111;
+}
+
+
+.retro-title {
+  font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
+  letter-spacing: 2px;
+  color: #b8001f;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+}
+
+/* Card do barbeiro */
+.barber-card {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  position: relative;
+}
+.photo-wrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  /* filter: blur(8px); */
+}
+.photo-wrapper img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+/* Nome e descrição */
+.barber-card h3 {
+  font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
+  color: #b8001f;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+.barber-card p.description {
+  text-align: center;
+  margin-top: 0.5rem;
+  color: #333;
+}
+
+/* Mensagem convite */
+.barber-card .invitation {
+  margin: 1.5rem 0;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 1rem;
+  border-radius: 0.75rem;
+  font-style: italic;
+  color: #111;
+  text-align: center;
+}
+
+/* Avaliações */
+.reviews-section {
+  margin-top: 1.5rem;
+}
+.reviews-section h4 {
+  font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
+  color: #b8001f;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.review-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1rem;
+  max-height: 150px;
+  overflow-y: auto;
+}
+.review-list li {
+  background: rgba(184,0,31,0.1);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.review-list li .rating-stars .bi {
+  color: #b8001f;
+  margin-right: 0.2rem;
+}
+
+/* Formulário de comentário */
+.star-rating {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.star-rating .bi {
+  font-size: 1.5rem;
+  color: #ccc;
+  cursor: pointer;
+  margin: 0 0.1rem;
+  transition: color 0.15s;
+}
+.star-rating .selected,
+.star-rating .bi:hover,
+.star-rating .bi.hover {
+  color: #b8001f;
+}
+
+.review-input textarea {
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+.review-input button {
+  margin-top: 0.5rem;
+}
+
+/* Responsivo */
+@media (max-width: 767px) {
+  .photo-wrapper { width: 150px; height: 150px; }
+  .barber-card { padding: 1.5rem; }
+}

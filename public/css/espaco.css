@@ -1,0 +1,74 @@
+body {
+  background: #fafafa;
+  font-family: 'Roboto', Arial, sans-serif;
+  color: #111;
+}
+
+/* Container das seções */
+.espaco-item {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+.espaco-item:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+/* Imagem circular com box-shadow */
+.espaco-item img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Texto com fundo blur */
+.espaco-text {
+  max-width: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 1.5rem;
+  border-radius: 1rem;
+}
+.espaco-text h3 {
+  font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
+  color: #b8001f;
+  margin-bottom: 1rem;
+}
+.espaco-text p {
+  color: #111;
+  line-height: 1.5;
+}
+
+/* Mapa */
+.map-container .ratio {
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Redes sociais */
+.socials .social-icon {
+  font-size: 2rem;
+  color: #b8001f;
+  margin: 0 1rem;
+  transition: transform 0.2s, color 0.2s;
+}
+.socials .social-icon:hover {
+  transform: scale(1.2);
+  color: #000;
+}
+
+/* Responsividade */
+@media (max-width: 767px) {
+  .espaco-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  .espaco-text {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,95 @@
+/* Reset básico e fontes */
+body {
+  background: #111;
+  color: #fff;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+/* Logo e títulos retrô */
+.retro-logo {
+  font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
+  letter-spacing: 1px;
+}
+.section-title {
+  font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
+  letter-spacing: 1.5px;
+  color: #111;
+  text-shadow: 1px 2px 8px #00000088;
+}
+
+/* Seção de avaliações gerais */
+.reviews-summary {
+  background: #222;
+  border-top: 4px solid #b8001f;
+  border-bottom: 4px solid #b8001f;
+}
+.rating-overall .display-1 {
+  font-family: 'Staatliches', sans-serif;
+  color: #b8001f;
+}
+.rating-stars .bi {
+  color: #b8001f;
+  font-size: 1.5rem;
+}
+.text-white-75 {
+  color: rgba(255,255,255,0.75) !important;
+}
+
+/* Depoimentos */
+.testimonials-section {
+  background: #111;
+}
+.card-testimonial {
+  background: #222;
+  border-radius: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card-testimonial .rating .bi {
+  color: #b8001f;
+  font-size: 1.25rem;
+}
+.card-testimonial:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px #b8001f44;
+}
+.card-testimonial p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #eee;
+}
+
+/* Galeria de cortes */
+.gallery-section {
+  background: #fafafa;
+}
+.gallery-section .section-title {
+  color: #111;
+}
+.gallery-img {
+  border-radius: 0.75rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.gallery-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px #b8001f44;
+}
+
+/* Footer */
+.footer {
+  background: #b8001f;
+  font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
+  border-top: 4px solid #111;
+}
+
+/* Responsivo */
+@media (max-width: 767px) {
+  .display-1 {
+    font-size: 3rem !important;
+  }
+  .gallery-img {
+    margin-bottom: 1rem;
+  }
+}

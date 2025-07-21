@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="stripe" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+      <rect width="4" height="8" fill="#b8001f"/>
+      <rect x="4" width="4" height="8" fill="#ffffff"/>
+    </pattern>
+  </defs>
+  <!-- Haste do pole -->
+  <rect x="22" y="6" width="4" height="36" rx="2" fill="url(#stripe)"/>
+  <!-- Tampas -->
+  <rect x="20" y="2" width="8" height="8" rx="2" fill="#b8001f"/>
+  <rect x="20" y="38" width="8" height="8" rx="2" fill="#b8001f"/>
+</svg>

@@ -1,0 +1,78 @@
+body {
+  background: #111;
+  color: #fff;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.retro-logo {
+  font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
+  letter-spacing: 1px;
+}
+
+.retro-form-title {
+  font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
+  letter-spacing: 1px;
+}
+
+/* Progress bar de passos */
+#progressbar {
+  gap: 0.5rem;
+}
+.step-indicator {
+  flex: 1;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #ccc;
+  font-family: 'Staatliches', sans-serif;
+}
+.step-indicator.active {
+  color: #b8001f;
+  font-weight: 700;
+}
+
+/* Controle de exibição dos passos */
+.step {
+  display: none;
+}
+.step.active {
+  display: block;
+}
+
+/* Cards e botões */
+.card {
+  border-radius: 1rem;
+}
+.form-label {
+  color: #b8001f;
+}
+.form-control, .form-select {
+  border-radius: 2rem;
+  padding: 0.75rem 1.2rem;
+}
+.btn.retro-btn {
+  border-radius: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Lista de agendamentos */
+.list-group-item {
+  background: transparent;
+  color: #fff;
+  border: none;
+  border-bottom: 1px solid #b8001f44;
+  padding: 0.75rem 0;
+}
+.list-group-item:last-child {
+  border-bottom: none;
+}
+
+/* Responsividade */
+@media (max-width: 767px) {
+  #progressbar {
+    flex-direction: column;
+  }
+  .step-indicator {
+    font-size: 0.9rem;
+  }
+}

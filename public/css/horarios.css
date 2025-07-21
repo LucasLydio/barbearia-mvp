@@ -1,0 +1,56 @@
+body {
+  background: #111;
+  color: #fff;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.retro-logo {
+  font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
+  letter-spacing: 1px;
+  font-size: 1.75rem;
+}
+
+.retro-title {
+  font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
+  letter-spacing: 1.5px;
+  color: #fff;
+  text-shadow: 1px 2px 8px #00000088;
+}
+
+.retro-subtitle {
+  font-family: 'Roboto', Arial, sans-serif;
+  color: #fff;
+  opacity: 0.85;
+}
+
+.schedule-card {
+  border-radius: 1rem;
+  background: #222;
+  color: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.schedule-card h5 {
+  font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
+  color: #b8001f;
+  margin-bottom: 0.5rem;
+}
+
+.schedule-card p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.schedule-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px #b8001f44;
+}
+
+@media (max-width: 767px) {
+  .retro-title {
+    font-size: 2rem;
+  }
+  .schedule-card {
+    padding: 1.5rem 1rem;
+  }
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <!-- Alças -->
+  <circle cx="14" cy="14" r="6" stroke="#b8001f" stroke-width="4" fill="none"/>
+  <circle cx="14" cy="34" r="6" stroke="#b8001f" stroke-width="4" fill="none"/>
+  <!-- Pontas -->
+  <path d="M20 20 L44 44 M20 28 L44 4" stroke="#b8001f" stroke-width="4" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,14 @@
+# Tudo no public/ (frontend) fica sob sua responsabilidade
+/public/**    @LucasLydio
+
+# Funções serverless
+/netlify/functions/**    @LucasLydio
+
+# Configurações de CI / deploy
+/netlify.toml             @LucasLydio
+
+# Documentação
+/README.md                @LucasLydio
+
+# Como fallback, você também pode proteger toda a base
+*                         @LucasLydio
