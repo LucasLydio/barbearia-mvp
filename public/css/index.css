@@ -22,6 +22,10 @@ body {
   background-repeat: no-repeat, no-repeat;
   background-position: center, center;
   background-size: auto, 70% auto; /* <— gradient fica auto, imagem 30% largura */
+  @media (max-width: 620px) {
+  background-size: auto, 95% auto;
+    
+  }
 }
 
 .retro-title {
@@ -38,18 +42,51 @@ body {
 }
 
 .retro-btn {
-    font-size: 1.2rem;
-    padding: 0.75rem 2.5rem;
-    border-radius: 30px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    box-shadow: 0 2px 18px #b8001f55;
-    transition: background 0.2s, box-shadow 0.2s;
+  position: relative;
+  display: inline-block;
+  font-size: 1.2rem;
+  padding: 0.75rem 2.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+  background: linear-gradient(135deg, #b8001f, #910015);
+  border: 2px solid #fff;
+  border-radius: 30px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.3),
+    0 0 12px rgba(184,0,31,0.6),
+    inset 0 -2px 4px rgba(0,0,0,0.2);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
 }
-.retro-btn:hover, .retro-btn:focus {
-    background: #c71d2c;
-    box-shadow: 0 2px 24px #b8001faa;
+
+.retro-btn::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 0;
+  height: 200%;
+  background: rgba(255,255,255,0.2);
+  transform: rotate(45deg);
+  transition: width 0.5s;
 }
+
+.retro-btn:hover::before {
+  width: 250%;
+}
+
+.retro-btn:hover, 
+.retro-btn:focus {
+  background: linear-gradient(135deg, #c71d2c, #a10018);
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 12px rgba(0,0,0,0.4),
+    0 0 16px rgba(184,0,31,0.8),
+    inset 0 -2px 4px rgba(0,0,0,0.3);
+}
+
 
 .features-section {
     background: #fafafa;
@@ -200,6 +237,9 @@ body {
   font-weight: 700;
   letter-spacing: 1px;
   transition: transform 0.2s, background 0.2s;
+  @media (max-width: 620px) {
+    font-size: 0.9rem;
+  }
 }
 
 .btn-cta:hover {
