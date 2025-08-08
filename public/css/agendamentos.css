@@ -4,6 +4,33 @@ body {
   font-family: 'Roboto', Arial, sans-serif;
 }
 
+/* ========== WebKit Browsers (Chrome, Safari, Edge) ========== */
+::-webkit-scrollbar {
+  width: 6px;               /* espessura da barra */
+  height: 6px;              /* espessura scroll horizontal */
+  background: transparent;   /* track transparente */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2); /* cor do “polegar” */
+  border-radius: 3px;                    /* cantos arredondados */
+  transition: background-color 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* ========== Firefox ========== */
+* {
+  scrollbar-width: thin;                      /* thin, auto, none */ 
+  scrollbar-color: rgba(0,0,0,0.2) transparent;
+}
+
 .retro-logo {
   font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
   letter-spacing: 1px;
@@ -12,6 +39,21 @@ body {
 .retro-form-title {
   font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
   letter-spacing: 1px;
+}
+
+.container-btn {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+}
+
+#appointment-list {
+  max-height: 25rem;
+  overflow-y: scroll;
 }
 
 /* Progress bar de passos */

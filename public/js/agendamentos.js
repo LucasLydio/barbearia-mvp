@@ -196,7 +196,7 @@ function updateSummary() {
   );
 
   const [year, month, day] = formData.date.split('-');
-  const formattedDate = `${day}-${month}-${year}`;
+  const formattedDate = `${day}/${month}/${year}`;
 
   // 2) Cria um array de seções com label + conteúdo
   const summarySections = [
@@ -217,7 +217,7 @@ function updateSummary() {
 
   // ==== BOTÃO WHATSAPP ====
   // 4) Monta array de linhas para o texto do WhatsApp, com markdown (*bold*)
-  const waLines = ['*✉️ Agendamento Valette Barbeshop*', ''];
+  const waLines = ['*✉️ Agendamento Valette Barbearia*', ''];
 
   // 4.1) Saudação personalizada no topo
   //    Supondo que formData.clientName contém o nome do cliente
@@ -234,7 +234,7 @@ function updateSummary() {
   // 5) Limpa o telefone e monta a URL
   const telClean = formData.phone.replace(/\D/g, '');
   const waNumber = telClean.startsWith('55') ? telClean : '55' + telClean;
-  const waNumber2 = 5521983398168;
+  const waNumber2 = 5562991300232;
   const waBtn = document.getElementById('whatsapp-btn');
   waBtn.href = `https://api.whatsapp.com/send?phone=${waNumber2}&text=${encodeURIComponent(waText)}`;
 }
