@@ -8,7 +8,7 @@ exports.handler = async (event) => {
   const owner    = process.env.REPO_OWNER;
   const repo     = process.env.REPO_NAME;
   const branch   = process.env.BRANCH_BARBER;
-  const filePath = 'data/db.json';
+  const filePath = 'public/data/db.json';
   try {
     if (event.httpMethod === "GET") {
       // 1. Busca o conteúdo atual do db.json
