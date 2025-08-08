@@ -28,7 +28,7 @@ body {
 
 /* ========== Firefox ========== */
 * {
-  scrollbar-width: thin;                      /* thin, auto, none */
+  scrollbar-width: thin;                      /* thin, auto, none */ 
   scrollbar-color: rgba(0,0,0,0.2) transparent;
 }
 

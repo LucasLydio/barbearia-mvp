@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const form      = document.getElementById('rating-form');
 
   // 1) Função para buscar e renderizar os ratings
-  async function loadRatings() {
+  async function loadRatings() { 
     try {
       const res     = await fetch(API);
       const ratings = await res.json();

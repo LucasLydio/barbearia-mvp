@@ -6,7 +6,7 @@ exports.handler = async (event) => {
 
   const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
   const owner    = process.env.REPO_OWNER;
-  const repo     = process.env.REPO_NAME;
+  const repo     = process.env.REPO_NAME; 
   const branch   = process.env.BRANCH_BARBER;
   const filePath = 'public/data/db.json';
   try {
