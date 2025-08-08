@@ -38,50 +38,70 @@
       </div>
     </section>
 
+    <div class="container my-5">
+      <h1 class="text-center mb-4">Envie sua avaliação</h1>
+
+      <form id="rating-form" class="mb-5">
+        <!-- Nome do Cliente -->
+        <div class="mb-3">
+          <label for="clientName" class="form-label">Nome do Cliente</label>
+          <input
+            type="text"
+            class="form-control"
+            id="clientName"
+            placeholder="Seu nome"
+            required
+          />
+        </div>
+
+        <!-- Mensagem -->
+        <div class="mb-3">
+          <label for="message" class="form-label">Mensagem</label>
+          <textarea
+            class="form-control"
+            id="message"
+            rows="3"
+            placeholder="Conte como foi sua experiência"
+            required
+          ></textarea>
+        </div>
+
+        <!-- Estrelas -->
+        <div class="mb-3">
+          <label class="form-label d-block">Avaliação</label>
+          <div class="btn-group" role="group" aria-label="Avaliação em estrelas">
+            <!-- 1 a 5 estrelas -->
+            <input type="radio" class="btn-check" name="rating" id="star1" value="1" autocomplete="off" required>
+            <label class="btn btn-outline-warning" for="star1">1 <i class="bi bi-star-fill"></i></label>
+
+            <input type="radio" class="btn-check" name="rating" id="star2" value="2" autocomplete="off">
+            <label class="btn btn-outline-warning" for="star2">2 <i class="bi bi-star-fill"></i></label>
+
+            <input type="radio" class="btn-check" name="rating" id="star3" value="3" autocomplete="off">
+            <label class="btn btn-outline-warning" for="star3">3 <i class="bi bi-star-fill"></i></label>
+
+            <input type="radio" class="btn-check" name="rating" id="star4" value="4" autocomplete="off">
+            <label class="btn btn-outline-warning" for="star4">4 <i class="bi bi-star-fill"></i></label>
+
+            <input type="radio" class="btn-check" name="rating" id="star5" value="5" autocomplete="off">
+            <label class="btn btn-outline-warning" for="star5">5 <i class="bi bi-star-fill"></i></label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-dark">Enviar Avaliação</button>
+      </form>
+
+      <!-- Lista de avaliações já enviadas -->
+      <ul id="ratings-list" class="list-group"></ul>
+    </div>
+
+
+
     <!-- Seção de Depoimentos -->
     <section class="testimonials-section py-5">
       <div class="container">
         <h2 class="section-title text-center mb-5 text-light">Depoimentos</h2>
-        <div class="row g-4">
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="card card-testimonial p-4 h-100 shadow-sm">
-              <div class="rating mb-3">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i>
-              </div>
-              <p class="card-text flex-grow-1">“Melhor barbearia da cidade! Ambiente incrível e corte impecável.”</p>
-              <h6 class="fw-bold mb-0 text-light">João Silva</h6>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="card card-testimonial p-4 h-100 shadow-sm">
-              <div class="rating mb-3">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-              </div>
-              <p class="card-text flex-grow-1">“Atendimento excelente, horário marcado e profissionais super atenciosos.”</p>
-              <h6 class="fw-bold mb-0 text-light">Mariana Costa</h6>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="card card-testimonial p-4 h-100 shadow-sm">
-              <div class="rating mb-3">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i>
-                <i class="bi bi-star"></i>
-              </div>
-              <p class="card-text flex-grow-1">“Adorei o estilo retrô do salão. O corte ficou ainda melhor do que eu imaginava!”</p>
-              <h6 class="fw-bold mb-0 text-light">Pedro Fernandes</h6>
-            </div>
-          </div>
+        <div id="testimonials-container" class="row g-4">
         </div>
       </div>
     </section>
@@ -117,5 +137,7 @@
   <!-- JS específico (pode preencher conteúdo dinamicamente) -->
   <script src="js/clientes.js"></script>
   <script src="js/include.js"></script>
+  <!-- seu script -->
+  <script src="js/rating.js"></script>
 </body>
 </html>

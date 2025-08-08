@@ -1,0 +1,56 @@
+/* Footer profissional Valette */
+.footer {
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+/* Títulos do footer */
+.footer-title {
+  font-family: 'Staatliches', 'Roboto', sans-serif;
+  color: #b8001f;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+}
+
+/* Texto e listas */
+.footer-text {
+  color: #ddd;
+  line-height: 1.6;
+}
+.footer-list li {
+  color: #ccc;
+  margin-bottom: 0.5rem;
+}
+
+/* Ícones de lista */
+.footer-list i {
+  color: #b8001f;
+}
+
+/* Redes sociais */
+.social-icon {
+  display: inline-block;
+  font-size: 1.5rem;
+  color: #fff;
+  transition: color 0.2s, transform 0.2s;
+}
+.social-icon:hover {
+  color: #000;
+  transform: translateY(-2px);
+}
+
+/* Seções do footer */
+.footer-top {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.footer-bottom {
+  letter-spacing: 0.5px;
+}
+
+/* Responsivo */
+@media (max-width: 767px) {
+  .footer-top .text-md-end {
+    text-align: left !important;
+    margin-top: 1.5rem;
+  }
+}

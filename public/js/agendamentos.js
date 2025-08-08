@@ -1,11 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
   const services = [
-    { id: 1, name: 'Corte Masculino', price: 50 },
-    { id: 2, name: 'Corte Infantil',  price: 40 },
-    { id: 3, name: 'Barba',           price: 30 },
-    { id: 4, name: 'Combo Corte + Barba', price: 75 }
+    { id: 1, name: 'Penteado', price: 30 },
+    { id: 2, name: 'Contorno (Pezinho)', price: 15 },
+    { id: 3, name: 'Progressiva', price: 90 },
+    { id: 4, name: 'Luzes', price: 80 },
+    { id: 5, name: 'Sobrancelhas', price: 20 },
+    { id: 6, name: 'Cabelo', price: 35 },
+    { id: 7, name: 'Barba + Barboterapia', price: 35 }
   ];
-  const barbers = ['João', 'Carlos', 'Marcos', 'Rafael'];
+  const barbers = ['Weberton'];
 
   let appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
   const formData = {};
@@ -52,14 +55,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Preenche horários
   const timeSelect = document.getElementById('time');
-  function loadTimes() {
-    timeSelect.innerHTML = '<option value="">Selecione...</option>';
-    ['09:00','10:00','11:00','13:00','14:00','15:00','16:00'].forEach(t => {
+function loadTimes() {
+  timeSelect.innerHTML = '<option value="">Selecione...</option>';
+  // Gera horários de 09:00 até 18:00 com intervalos de 30min
+  for (let hour = 9; hour <= 18; hour++) {
+    ['00', '30'].forEach(min => {
+      const t = `${hour.toString().padStart(2, '0')}:${min}`;
+      // Não inclui 18:30 (passaria das 18h)
+      if (hour === 18 && min === '30') return;
       const opt = document.createElement('option');
-      opt.value = t; opt.textContent = t;
+      opt.value = t;
+      opt.textContent = t;
       timeSelect.appendChild(opt);
     });
   }
+}
 
   // Navegação: Passo 1 → 2
   document.getElementById('next1').addEventListener('click', () => {
@@ -100,8 +110,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Passo 4 → 5
   document.getElementById('next4').addEventListener('click', () => {
     const phone = document.getElementById('phone').value.trim();
+    const clientName = document.getElementById('clientName').value.trim();
     if (!phone) return alert('Informe o telefone');
     formData.phone = phone;
+    if(!clientName) return alert('Informe o seu nome');
+    formData.clientName = clientName; 
     updateSummary();
     showStep(5);
   });
@@ -114,22 +127,22 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Atualiza o resumo no passo 5
-  function updateSummary() {
-    const ul = document.getElementById('summary-list');
-    // Serviços + total
-    const items = formData.services.map(s =>
-      `Serviço: ${s.name} — R$ ${s.price.toFixed(2)}`
-    );
-    items.push(`Total: R$ ${formData.totalPrice.toFixed(2)}`);
-    // Data/hora, barbeiro e telefone
-    items.push(`Data/Hora: ${formData.date} ${formData.time}`);
-    items.push(`Barbeiro: ${formData.barber}`);
-    items.push(`Telefone: ${formData.phone}`);
+  // function updateSummary() {
+  //   const ul = document.getElementById('summary-list');
+  //   // Serviços + total
+  //   const items = formData.services.map(s =>
+  //     `Serviço: ${s.name} — R$ ${s.price.toFixed(2)}`
+  //   );
+  //   items.push(`Total: R$ ${formData.totalPrice.toFixed(2)}`);
+  //   // Data/hora, barbeiro e telefone
+  //   items.push(`Data/Hora: ${formData.date} ${formData.time}`);
+  //   items.push(`Barbeiro: ${formData.barber}`);
+  //   items.push(`Telefone: ${formData.phone}`);
 
-    ul.innerHTML = items
-      .map(txt => `<li class="list-group-item">${txt}</li>`)
-      .join('');
-  }
+  //   ul.innerHTML = items
+  //     .map(txt => `<li class="list-group-item">${txt}</li>`)
+  //     .join('');
+  // }
 
   // Submete e salva no localStorage
   wizardForm.addEventListener('submit', e => {
@@ -173,6 +186,61 @@ function renderAppointments() {
       </li>`;
   }).join('');
 }
+
+function updateSummary() {
+  const ul = document.getElementById('summary-list');
+
+  // 1) Prepara as linhas de serviço
+  const serviceLines = formData.services.map(s =>
+    `• ${s.name} — R$ ${s.price.toFixed(2)}`
+  );
+
+  const [year, month, day] = formData.date.split('-');
+  const formattedDate = `${day}-${month}-${year}`;
+
+  // 2) Cria um array de seções com label + conteúdo
+  const summarySections = [
+    { label: '💈 Serviços',   value: serviceLines.join('\n') },
+    { label: '💰 Total',      value: `R$ ${formData.totalPrice.toFixed(2)}` },
+    { label: '🗓️ Data/Hora',  value: `${formattedDate} às ${formData.time}` },
+    { label: '✂️ Barbeiro',    value: formData.barber },
+    { label: '📞 Telefone',   value: formData.phone },
+  ];
+
+  // 3) Renderiza no HTML, usando <strong> e <br> para respeitar quebras de linha
+  ul.innerHTML = summarySections.map(sec => `
+    <li class="list-group-item">
+      <strong>${sec.label}:</strong><br>
+      ${sec.value.replace(/\n/g, '<br>')}
+    </li>
+  `).join('');
+
+  // ==== BOTÃO WHATSAPP ====
+  // 4) Monta array de linhas para o texto do WhatsApp, com markdown (*bold*)
+  const waLines = ['*✉️ Agendamento Valette Barbeshop*', ''];
+
+  // 4.1) Saudação personalizada no topo
+  //    Supondo que formData.clientName contém o nome do cliente
+  waLines.push(`Olá, sou ${formData.clientName} e gostaria de agendar o(s) serviço(s):`);
+  waLines.push(''); // linha em branco
+
+  summarySections.forEach(sec => {
+    waLines.push(`*${sec.label}:*`);
+    waLines.push(...sec.value.split('\n'));
+    waLines.push(''); // linha em branco entre seções
+  });
+  const waText = waLines.join('\n');
+
+  // 5) Limpa o telefone e monta a URL
+  const telClean = formData.phone.replace(/\D/g, '');
+  const waNumber = telClean.startsWith('55') ? telClean : '55' + telClean;
+  const waNumber2 = 5521983398168;
+  const waBtn = document.getElementById('whatsapp-btn');
+  waBtn.href = `https://api.whatsapp.com/send?phone=${waNumber2}&text=${encodeURIComponent(waText)}`;
+}
+
+
+
 
 
   // Inicia
