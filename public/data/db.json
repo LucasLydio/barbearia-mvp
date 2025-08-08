@@ -14,6 +14,11 @@
       "clientName": "Silva",
       "message": "Foi uma excelente experiência!!",
       "rating": 4
+    },
+    {
+      "clientName": "Francisco",
+      "message": "Fui muito bem atendido e gostaria de recomendar!",
+      "rating": 4
     }
   ]
 }
