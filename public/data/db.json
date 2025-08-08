@@ -9,6 +9,11 @@
       "clientName": "Douglas",
       "message": "Muito bom o corte e muito bom o barbeiro!!",
       "rating": 5
+    },
+    {
+      "clientName": "Silva",
+      "message": "Foi uma excelente experiência!!",
+      "rating": 4
     }
   ]
 }
