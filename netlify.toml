@@ -3,6 +3,7 @@
   publish = "public"
   # pasta onde ficam as suas Netlify Functions
   functions = "netlify/functions"
+  command   = "npm install --prefix netlify/functions"
 
 # (Opcional) se você tiver um comando de build, descomente e ajuste:
 # [build]
