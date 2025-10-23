@@ -229,7 +229,7 @@ function updateSummary() {
   waLines.push('Cartão 💳 ou Pix ❖ ');
   waLines.push('\n*Finalize seu pré-agendamento realizando o pagamento!*');
   waLines.push('\n Obs: O valor do *pré-agendamento (R$ 20,00)* será descontado no valor total do procedimento. ');
-  waLines.push('\n\n*Em caso de imprevisto, reagendamento com a tolerância mínima de 1h*');
+  waLines.push('\n\n*Em caso de imprevisto, reagendamento com a antecedência mínima de 1h*');
   waLines.push('\n*Tolerância de atraso de 15 min*');
   waLines.push('\n*Caso falte, não haverá ressarcimento do valor do agendamento.*');
   waLines.push('\n Após o pagamento via Pix ou link, envie seu comprovante via WhatsApp.');
