@@ -227,13 +227,14 @@ function updateSummary() {
   waLines.push('Obs: Este é um pré-agendamento. Aguardo confirmação e instruções para pagamento.');
 
   waLines.push('Cartão 💳 ou Pix ❖ ');
-  waLines.push('*Finalize seu pré-agendamento realizando o pagamento!*');
+  waLines.push('\n*Finalize seu pré-agendamento realizando o pagamento!*');
   waLines.push('\n Obs: O valor do *pré-agendamento (R$ 20,00)* será descontado no valor total do procedimento. ');
-  waLines.push('\n*Em caso de imprevisto, reagendamento com a tolerância mínima de 1h*');
+  waLines.push('\n\n*Em caso de imprevisto, reagendamento com a tolerância mínima de 1h*');
   waLines.push('\n*Tolerância de atraso de 15 min*');
   waLines.push('\n*Caso falte, não haverá ressarcimento do valor do agendamento.*');
-  waLines.push('\n Acesse o link de pagamento e envie seu comprovante via WhatsApp.');
-  waLines.push('https://linktr.ee/Valette.barbearia');
+  waLines.push('\n Após o pagamento via Pix ou link, envie seu comprovante via WhatsApp.');
+  waLines.push('\n\nCartão 💳: https://cielolink.com.br/4htomi0');
+  waLines.push('\n\n Pix ❖: 62991300232');
   waLines.push('\n*Obrigado!* 🙏');
 
   waLines.push('\n');
