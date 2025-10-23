@@ -1,12 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
   const services = [
     { id: 1, name: 'Penteado', price: 30 },
-    { id: 2, name: 'Contorno (Pezinho)', price: 15 },
-    { id: 3, name: 'Progressiva', price: 90 },
-    { id: 4, name: 'Luzes', price: 80 },
-    { id: 5, name: 'Sobrancelhas', price: 20 },
-    { id: 6, name: 'Cabelo', price: 35 },
-    { id: 7, name: 'Barba + Barboterapia', price: 35 }
+    { id: 2, name: 'Luzes', price: 80 },
+    { id: 3, name: 'Platinado', price: 120 },
+    { id: 4, name: 'Progressiva (A partir de)', price: 80 },
+    { id: 5, name: 'Selagem', price: 80 },
+    { id: 6, name: 'Hidratação', price: 20 },
+    { id: 7, name: 'Contorno (Pezinho)', price: 20 },
+    { id: 8, name: 'Sobrancelhas', price: 20 },
+    { id: 9, name: 'Cabelo', price: 40 },
+    { id: 10, name: 'Barba + Barboterapia', price: 40 }
   ];
   const barbers = ['Weberton'];
 
@@ -225,6 +228,10 @@ function updateSummary() {
 
   waLines.push('Cartão 💳 ou Pix ❖ ');
   waLines.push('*Finalize seu pré-agendamento realizando o pagamento!*');
+  waLines.push('\n Obs: O valor do *pré-agendamento (R$ 20,00)* será descontado no valor total do procedimento. ');
+  waLines.push('\n*Em caso de imprevisto, reagendamento com a tolerância mínima de 1h*');
+  waLines.push('\n*Tolerância de atraso de 15 min*');
+  waLines.push('\n*Caso falte, não haverá ressarcimento do valor do agendamento.*');
   waLines.push('\n Acesse o link de pagamento e envie seu comprovante via WhatsApp.');
   waLines.push('https://linktr.ee/Valette.barbearia');
   waLines.push('\n*Obrigado!* 🙏');
@@ -247,7 +254,7 @@ function updateSummary() {
   const waNumber2 = 5562991300232;
   const waNumber3 = 5521983398168;
   const waBtn = document.getElementById('whatsapp-btn');
-  waBtn.href = `https://api.whatsapp.com/send?phone=${waNumber3}&text=${encodeURIComponent(waText)}`;
+  waBtn.href = `https://api.whatsapp.com/send?phone=${waNumber2}&text=${encodeURIComponent(waText)}`;
 }
 
 
