@@ -217,26 +217,37 @@ function updateSummary() {
 
   // ==== BOTÃO WHATSAPP ====
   // 4) Monta array de linhas para o texto do WhatsApp, com markdown (*bold*)
-  const waLines = ['*✉️ Agendamento Valette Barbearia*', ''];
+  const waLines = ['*✉️ Pré-Agendamento Valette Barbearia*', ''];
 
   // 4.1) Saudação personalizada no topo
-  //    Supondo que formData.clientName contém o nome do cliente
-  waLines.push(`Olá, sou ${formData.clientName} e gostaria de agendar o(s) serviço(s):`);
-  waLines.push(''); // linha em branco
+
+  waLines.push('Obs: Este é um pré-agendamento. Aguardo confirmação e instruções para pagamento.');
+
+  waLines.push('Cartão 💳 ou Pix ❖ ');
+  waLines.push('*Finalize seu pré-agendamento realizando o pagamento!*');
+  waLines.push('\n Acesse o link de pagamento e envie seu comprovante via WhatsApp.');
+  waLines.push('https://linktr.ee/Valette.barbearia');
+  waLines.push('\n*Obrigado!* 🙏');
+
+  waLines.push('\n');
+  waLines.push(`Olá, sou *${formData.clientName}* e gostaria de pré-agendar o(s) serviço(s):`);
+  waLines.push(''); 
 
   summarySections.forEach(sec => {
     waLines.push(`*${sec.label}:*`);
     waLines.push(...sec.value.split('\n'));
-    waLines.push(''); // linha em branco entre seções
+    waLines.push('');
   });
+
   const waText = waLines.join('\n');
 
   // 5) Limpa o telefone e monta a URL
   const telClean = formData.phone.replace(/\D/g, '');
   const waNumber = telClean.startsWith('55') ? telClean : '55' + telClean;
   const waNumber2 = 5562991300232;
+  const waNumber3 = 5521983398168;
   const waBtn = document.getElementById('whatsapp-btn');
-  waBtn.href = `https://api.whatsapp.com/send?phone=${waNumber2}&text=${encodeURIComponent(waText)}`;
+  waBtn.href = `https://api.whatsapp.com/send?phone=${waNumber3}&text=${encodeURIComponent(waText)}`;
 }
 
 
