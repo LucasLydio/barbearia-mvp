@@ -19,6 +19,11 @@
       "clientName": "Francisco",
       "message": "Fui muito bem atendido e gostaria de recomendar!",
       "rating": 4
+    },
+    {
+      "clientName": "Alderico",
+      "message": "Ótimo atendimento e preço justo.",
+      "rating": 5
     }
   ]
 }
