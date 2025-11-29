@@ -37,9 +37,26 @@ exports.handler = async function(event, context) {
       },
     };
   } catch (err) {
+    console.log({
+        error: err.message || 'Erro desconhecido',
+        name: err.name,
+        stack: err.stack,
+        details: err.details || undefined, // alguns libs como supabase retornam err.details
+        received: event.body || event.queryStringParameters || null
+    });
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: err.message }),
+      body: JSON.stringify({
+        error: err.message || 'Erro desconhecido',
+        name: err.name,
+        stack: err.stack,
+        details: err.details || undefined, // alguns libs como supabase retornam err.details
+        received: event.body || event.queryStringParameters || null
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      }
     };
   }
 };
