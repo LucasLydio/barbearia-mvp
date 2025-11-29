@@ -74,3 +74,57 @@ body {
 .action-btn:hover i {
     transform: scale(1.15);
 }
+
+
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.modal-card {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 2px 32px 0 rgba(0,0,0,0.25);
+  position: relative;
+  animation: modalIn 0.25s cubic-bezier(.42,0,.58,1);
+}
+@keyframes modalIn {
+  from { transform: scale(.96) translateY(30px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+.modal-card h5 {
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: #222;
+}
+.modal-card label {
+  font-weight: 500;
+}
+.modal-card input {
+  background: #f9f9f9;
+  border-radius: .6rem;
+}
+.modal-card .btn {
+  font-weight: 600;
+  border-radius: .7rem;
+  min-width: 100px;
+}
+.modal-card .btn-dark {
+  background: #222;
+  border: none;
+  color: #fff;
+}
+.modal-card .btn-outline-secondary {
+  border: 1px solid #bbb;
+}
+@media (max-width: 500px) {
+  .modal-card { padding: 1.25rem 0.5rem 1rem 0.5rem; }
+}

@@ -154,7 +154,9 @@ function openEditAppointmentModal(ag) {
   document.getElementById('editAppointmentClient').value = ag.clients?.name || "—";
   document.getElementById('editAppointmentClientId').value = ag.clients?.id || "";
   document.getElementById('editAppointmentService').value = (ag.appointment_services || [])
-    .map(as => as.services?.name).filter(Boolean).join(", ");
+    .map(as => as.services?.name).filter(Boolean).join(", "); 
+  document.getElementById('editAppointmentServiceId').value = (ag.appointment_services || [])
+    .map(as => as.service_id).filter(Boolean).join(", "); 
   document.getElementById('editAppointmentDate').value = ag.date;
   document.getElementById('editAppointmentTime').value = ag.time;
   document.getElementById('editAppointmentStatus').value = ag.status || "Aguardando";
@@ -172,50 +174,54 @@ document.getElementById('editAppointmentForm').onsubmit = async function(e) {
   const date = document.getElementById('editAppointmentDate').value;
   const time = document.getElementById('editAppointmentTime').value;
   const status = document.getElementById('editAppointmentStatus').value;
-  const services = document.getElementById('editAppointmentService').value;
+  const services = document.getElementById('editAppointmentServiceId')?.value;
+
   let service_id = [];
 
-  // Pegando os serviços (input de texto separado por vírgula)
-  const appointment_services = services.split(',').map(s => s.trim()).filter(Boolean);
-
-  // Pegando os serviços (checkboxes marcados)
-  const serviceInputs = document.querySelectorAll('input[name="serviceEdit[]"]:checked');
-  if(appointment_services.length === 0 && serviceInputs.length === 0) {
-    alert("Nenhum serviço selecionado.");
-  }
-  else {
-    service_id = Array.from(serviceInputs).map(i => i.value);
-    console.log("Serviços selecionados:", service_id);
-  }
-
-
-  // Pegando barbeiro (caso tenha select de barber no form)
   const barber_id = document.getElementById('editAppointmentBarber')?.value;
-  // Pegando cliente (caso tenha select de client no form)
+
   const client_id = document.getElementById('editAppointmentClientId')?.value;
 
-  // Monta o objeto
   const payload = {
-    appointment_id, date, time, status, service_id
+    appointment_id, date, time, status
   };
   if (barber_id) payload.barber_id = barber_id;
   if (client_id) payload.client_id = client_id;
 
+  const serviceInputs = document.querySelectorAll('input[name="serviceEdit[]"]:checked');
+  if(services.length === 0 && serviceInputs.length === 0) {
+    alert("Nenhum serviço selecionado.");
+    return false;
+  }
+  else if(serviceInputs.length > 0) {
+    service_id = Array.from(serviceInputs).map(i => i.value);
+    payload.service_id = service_id;
+    console.log("Serviços selecionados:", service_id);
+  }
+  else {
+    const previousServices = document.getElementById('editAppointmentServiceId').value;
+    if (previousServices) {
+      service_id = previousServices.split(',').map(s => s.trim()).filter(Boolean);
+    }
+    payload.service_id = service_id;
+    console.log("Serviços do input oculto:", service_id);
+  }
+
   console.log("Payload para atualizar agendamento:", payload);
 
-  // const res = await fetch('/.netlify/functions/appointments-put', {
-  //   method: 'PUT',
-  //   headers: {'Content-Type': 'application/json'},
-  //   body: JSON.stringify(payload)
-  // });
-  // const { error } = await res.json();
-  // if (error) {
-  //   alert('Erro ao atualizar!');
-  // } else {
-  //   alert('Agendamento atualizado!');
-  //   document.getElementById('editAppointmentModal').style.display = 'none';
-  //   carregarAgendamentosDia(filterDate.value); 
-  // }
+  const res = await fetch('/.netlify/functions/appointments-put', {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload)
+  });
+  const { error } = await res.json();
+  if (error) {
+    alert('Erro ao atualizar!');
+  } else {
+    alert('Agendamento atualizado!');
+    document.getElementById('editAppointmentModal').style.display = 'none';
+    carregarAgendamentosDia(filterDate.value); 
+  }
 };
 
 

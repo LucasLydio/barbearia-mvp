@@ -20,20 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  // Monta mensagem para o WhatsApp
-  function getWhatsappText() {
-    return `
-      *Novo Agendamento Valette Barbearia*
-      • Serviços: ${Array.isArray(formData.serviceName) ? formData.serviceName.join(', ') : formData.serviceName}
-      • Data: ${formData.date}
-      • Hora: ${formData.time}
-      • Barbeiro: ${formData.barberName || formData.barber}
-      • Nome: ${formData.clientName}
-      • Telefone: ${formData.telephone}
-      • Email: ${formData.email}
-      ${formData.note ? '• Observações: ' + formData.note : ''}
-          `.trim();
-  }
+
 
   // Configura link do WhatsApp e salva agendamento ao clicar
   whatsappBtn.onclick = async (e) => {

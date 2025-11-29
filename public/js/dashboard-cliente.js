@@ -1,3 +1,4 @@
+
 // Utilitário para decodificar o token Base64 salvo no localStorage
 function decodeToken(token) {
   try {
@@ -98,3 +99,71 @@ function logout() {
   sessionStorage.removeItem('client');
   window.location.href = '/area-do-cliente.html';
 }
+
+
+// Função para abrir o modal e preencher dados
+async function openEditClientModal() {
+  const token = localStorage.getItem('valette_token');
+  const user = token ? decodeToken(token) : null;
+  if (!user) return;
+
+  // Busca dados atualizados do cliente pela API (garante frescor)
+  const res = await fetch(`/.netlify/functions/clients-get?client_id=${user.id}`);
+  const { data } = await res.json();
+  if (!data) return alert('Erro ao buscar dados do cliente!');
+
+  // Preenche campos
+  document.getElementById('editClientName').value = data.name || '';
+  document.getElementById('editClientEmail').value = data.email || '';
+  document.getElementById('editClientTelephone').value = data.telephone || '';
+
+  document.getElementById('editClientModal').style.display = 'flex';
+}
+
+// Evento no botão editar
+document.querySelector('.dash-item-card .action-btn').onclick = openEditClientModal;
+
+// Fechar modal
+document.getElementById('closeEditClientModal').onclick = () => {
+  document.getElementById('editClientModal').style.display = 'none';
+};
+
+// Submissão do formulário de edição
+document.getElementById('editClientForm').onsubmit = async function(e) {
+  e.preventDefault();
+  const token = localStorage.getItem('valette_token');
+  const user = token ? decodeToken(token) : null;
+  if (!user) return;
+
+  const name = document.getElementById('editClientName').value.trim().toUpperCase();
+  const email = document.getElementById('editClientEmail').value.trim();
+  const telephone = document.getElementById('editClientTelephone').value.trim();
+
+  // (Opcional) Validação simples
+  if (!name || !email || !telephone || user.id == null) {
+    alert('Preencha todos os campos.');
+    return;
+  }
+
+  // Atualiza via API
+  const res = await fetch('/.netlify/functions/clients-put', {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ client_id: user.id, name, email, telephone })
+  });
+  const result = await res.json();
+  if (result.error) {
+    alert('Erro ao atualizar dados!');
+  } else {
+    alert('Informações atualizadas!');
+    document.getElementById('editClientModal').style.display = 'none';
+    // Atualiza nome na tela (opcional recarregar a página)
+    document.querySelector('.welcome-card h3').innerHTML = `Olá, ${name}!`;
+    // Atualiza token se quiser manter em sync
+    user.name = name;
+    user.email = email;
+    user.telephone = telephone;
+    localStorage.setItem('valette_token', btoa(JSON.stringify(user)));
+    window.location.reload();
+  }
+};

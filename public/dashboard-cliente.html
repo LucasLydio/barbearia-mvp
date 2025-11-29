@@ -43,6 +43,32 @@
             </div>
         </div>
 
+        <!-- Modal de edição do cliente -->
+        <div class="modal-bg" id="editClientModal" style="display:none;">
+        <div class="modal-card" style="max-width:400px;">
+            <h5 class="mb-3">Editar Informações</h5>
+            <form id="editClientForm">
+            <div class="mb-2">
+                <label for="editClientName" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="editClientName" required>
+            </div>
+            <div class="mb-2">
+                <label for="editClientEmail" class="form-label">E-mail</label>
+                <input type="email" class="form-control" id="editClientEmail" required>
+            </div>
+            <div class="mb-2">
+                <label for="editClientTelephone" class="form-label">Telefone</label>
+                <input type="tel" class="form-control" id="editClientTelephone" required>
+            </div>
+            <div class="d-flex gap-2 mt-3">
+                <button type="submit" class="btn btn-dark w-100">Salvar</button>
+                <button type="button" class="btn btn-outline-secondary w-100" id="closeEditClientModal">Cancelar</button>
+            </div>
+            </form>
+        </div>
+        </div>
+
+
         <!-- Card 2: Ver Agendamentos -->
         <div class="col-12">
             <div class="dash-item-card p-3 rounded shadow-sm d-flex justify-content-between align-items-center">
