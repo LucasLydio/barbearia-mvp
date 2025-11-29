@@ -155,7 +155,7 @@ editServiceForm.onsubmit = async function(e) {
     // Editar
     url = '/.netlify/functions/services-put';
     method = 'PUT';
-    body = JSON.stringify({ id, name, price, duration });
+    body = JSON.stringify({ service_id: id, name, price, duration });
   } else {
     // Criar
     url = '/.netlify/functions/services-post';

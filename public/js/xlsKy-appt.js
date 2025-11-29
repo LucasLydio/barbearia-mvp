@@ -204,10 +204,10 @@ document.getElementById('editAppointmentForm').onsubmit = async function(e) {
       service_id = previousServices.split(',').map(s => s.trim()).filter(Boolean);
     }
     payload.service_id = service_id;
-    console.log("Serviços do input oculto:", service_id);
+    // console.log("Serviços do input oculto:", service_id);
   }
 
-  console.log("Payload para atualizar agendamento:", payload);
+  // console.log("Payload para atualizar agendamento:", payload);
 
   const res = await fetch('/.netlify/functions/appointments-put', {
     method: 'PUT',
