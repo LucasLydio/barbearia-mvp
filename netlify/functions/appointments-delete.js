@@ -1,4 +1,4 @@
-const { deleteAppointment } = require('../apiAppointments.js');
+const { deleteAppointment } = require('./apiAppointments.js');
 require('dotenv').config();
 
 exports.handler = async function(event, context) {

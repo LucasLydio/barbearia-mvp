@@ -1,4 +1,4 @@
-const { updateBarber } = require('../apiBarbers.js');
+const { updateBarber } = require('./apiBarbers.js');
 require('dotenv').config();
 
 exports.handler = async function(event, context) {
