@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Dados estáticos de exemplo; substitua por fetch('/.netlify/functions/getHorarios')
   const horarios = [
-    { dia: 'Segunda-feira', abertura: '09:00', fechamento: '18:00' },
-    { dia: 'Terça-feira',   abertura: '09:00', fechamento: '18:00' },
-    { dia: 'Quarta-feira', abertura: '09:00', fechamento: '18:00' },
-    { dia: 'Quinta-feira', abertura: '09:00', fechamento: '18:00' },
-    { dia: 'Sexta-feira', abertura: '09:00', fechamento: '18:00' },
-    { dia: 'Sábado',      abertura: '10:00', fechamento: '16:00' },
+    { dia: 'Segunda-feira', abertura: '09:30', fechamento: '19:00' },
+    { dia: 'Terça-feira',   abertura: '09:30', fechamento: '19:00' },
+    { dia: 'Quarta-feira', abertura: '09:30', fechamento: '19:00' },
+    { dia: 'Quinta-feira', abertura: '09:30', fechamento: '19:00' },
+    { dia: 'Sexta-feira', abertura: '09:30', fechamento: '19:00' },
+    { dia: 'Sábado',      abertura: '09:30', fechamento: '19:00' },
     { dia: 'Domingo',     abertura: 'Fechado', fechamento: '' }
   ];
 
