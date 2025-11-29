@@ -1,0 +1,76 @@
+body {
+  background: #fff;
+  color: #0000;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.retro-logo {
+  font-family: 'Staatliches', 'Roboto', Arial, sans-serif;
+  letter-spacing: 1px;
+}
+
+:root {
+    --bg-black: #000000;
+    --red: #b8001f;
+    --bg-white: #fafafa;
+    --gray: #cccccc82;
+}
+
+#clientBookings {
+    max-height: 400px;
+    padding-block: .9rem;
+    overflow-y: auto;
+}
+
+.main {
+    min-height: 70vh;
+}
+
+.client-dashboard {
+    max-width: 600px;
+}
+
+/* Card de boas-vindas */
+.welcome-card {
+    background: var(--bg-white);
+    color: var(--bg-black);
+    border-left: 6px solid var(--red);
+}
+
+/* Cards de navegação */
+.dash-item-card {
+    background: #ffffff;
+    color: var(--bg-black);
+    border: 1px solid #eee;
+    transition: all 0.2s ease;
+}
+
+/* .dash-item-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    border-color: var(--red);
+} */
+
+/* Botões circulares */
+.action-btn {
+    width: 56px;
+    height: 56px;
+    background: #000;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn:hover {
+    background: var(--red);
+}
+
+/* Animação suave */
+.action-btn i {
+    transition: transform 0.18s ease;
+}
+
+.action-btn:hover i {
+    transform: scale(1.15);
+}

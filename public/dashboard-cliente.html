@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Valette Barbearia | Área do Cliente</title>
+    <link rel="icon" href="assets/icons/valette.png" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Staatliches&display=swap" rel="stylesheet" />
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- CSS específico -->
+  <link rel="stylesheet" href="css/dashboard-cliente.css" />
+</head>
+<body>
+  <!-- Navbar -->
+        <!-- Rodapé -->
+<div id="header"></div>
+
+<main class="client-dashboard container py-4">
+
+    <!-- Boas-vindas -->
+    <section class="welcome-card text-center mb-4 p-4 rounded shadow-sm">
+        <h3 class="fw-bold mb-1">Olá!</h3>
+        <p class="text-muted m-0">Gerencie seu perfil, seus agendamentos e seus próximos horários.</p>
+    </section>
+
+    <!-- Navegação -->
+    <section class="dashboard-options row g-3">
+
+        <!-- Card 1: Minhas Informações -->
+        <div class="col-12">
+            <div class="dash-item-card p-3 rounded shadow-sm d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="fw-bold mb-1">Minhas Informações</h6>
+                    <p class="text-muted small m-0">Veja ou edite seus dados pessoais.</p>
+                </div>
+                <button class="btn btn-dark btn-lg rounded-circle action-btn">
+                    <i class="bi bi-pencil-square fs-4"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Card 2: Ver Agendamentos -->
+        <div class="col-12">
+            <div class="dash-item-card p-3 rounded shadow-sm d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="fw-bold mb-1">Meus Agendamentos</h6>
+                    <p class="text-muted small m-0">Visualize seus horários marcados.</p>
+                </div>
+                <button class="btn btn-dark btn-lg rounded-circle action-btn" onclick="document.querySelector('section.my-4.p-2.card.appt').style.display = 'block';">
+                    <i class="bi bi-calendar-week fs-4"></i>
+                </button>
+            </div>
+            <section class="my-4 p-2 py-4 card appt position-relative" style="display:none;">
+                <p class="btn text-black-50 d-flex gap-2 position-absolute end-0 me-2  fs-6 w-auto " onclick="this.parentElement.style.display='none';" >
+                    Fechar
+                </p>
+                <h5 class="fw-bold mb-3 text-dark fs-6 ms-2">Meus Agendamentos</h5>
+                <div id="clientBookings"></div>
+            </section>
+
+        </div>
+
+        <!-- Card 3: Agendar Horário -->
+        <div class="col-12">
+            <div class="dash-item-card p-3 rounded shadow-sm d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="fw-bold mb-1">Agendar Horário</h6>
+                    <p class="text-muted small m-0">Escolha um novo horário com um barbeiro.</p>
+                </div>
+                <a href="/agendamentos.html" class="btn btn-dark btn-lg rounded-circle action-btn">
+                    <i class="bi bi-clock-history fs-4"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <button onclick="logout()" class="btn btn-outline-danger btn-sm float-end">
+            <i class="bi bi-box-arrow-right"></i> Sair
+            </button>
+        </div>
+
+    </section>
+
+</main>
+
+      <!-- Rodapé -->
+<div id="footer"></div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- JS específico (pode preencher conteúdo dinamicamente) -->
+  <script src="js/include.js"></script>
+  <script src="js/dashboard-cliente.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+body {
+  background: #fff;
+  color: #0000;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+:root {
+    --bg-black: #000000;
+    --red: #b8001f;
+    --bg-white: #fafafa;
+    --gray: #cccccc82;
+}
+
+
+.main {
+    min-height: 60vh;
+}
+
+
+.cta {
+    width: fit-content;
+    max-width: 400px;
+    /* min-width: 250px; */
+    min-height: 250px;
+    padding: 1rem;
+    height: auto;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    /* background: linear-gradient(100deg, #191919 85%, var(--bg-black) 100%); */
+    background-color: transparent;
+    color: var(--bg-black);
+    /* box-shadow: 0 4px 16px rgba(0,0,0,.08); */
+    .cta-img {
+        align-self: center;
+        opacity: 0.9;
+        object-fit: cover;
+        img {
+            width: 300px;
+            height: auto;
+            /* border-radius: 50%; */
+            max-width: 100%;
+
+        }
+    }
+}
+.cta h5 {
+    font-family: 'Staatliches', cursive;
+    font-size: 1.5rem;
+    color: var(--bg-black);
+    letter-spacing: 1px;
+}
+.cta p {
+    color: var(--bg-white);
+    font-size: 1.0rem;
+    margin-bottom: 0.8rem;
+}
+.cta .btn {
+    background: var(--bg-black);
+    color: #191919;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.cta-schedule {
+    /* font-family: 'Staatliches', cursive; */
+    font-weight: 200;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    min-width: 350px;
+    button {
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .login {
+        .login-cta {
+            font-family: 'Staatliches', cursive;
+        }
+        form {
+            input {
+                border-radius: .3rem;
+                padding: .3rem .5rem;
+                border: 1px solid #83838382;
+            }
+        }
+    }
+}
