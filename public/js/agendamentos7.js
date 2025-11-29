@@ -1,4 +1,11 @@
   // Monta mensagem para o WhatsApp
+  
+function formatDateBR(dateStr) {
+  // Suporta formato "2025-11-28"
+  const [year, month, day] = dateStr.split('-');
+  return `${day}/${month}/${year}`;
+}
+
   function getWhatsappText() {
 
   const waLines = ['*✉️ Pré-Agendamento Valette Barbearia*', ''];
