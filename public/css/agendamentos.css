@@ -118,3 +118,9 @@ body {
     font-size: 0.9rem;
   }
 }
+
+.horario-toggle.active {
+  background: #dc3545 !important;  /* vermelho, seu tema */
+  color: #fff !important;
+  border-color: #dc3545 !important;
+}

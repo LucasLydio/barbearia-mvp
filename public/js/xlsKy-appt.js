@@ -172,11 +172,21 @@ document.getElementById('editAppointmentForm').onsubmit = async function(e) {
   const date = document.getElementById('editAppointmentDate').value;
   const time = document.getElementById('editAppointmentTime').value;
   const status = document.getElementById('editAppointmentStatus').value;
+  const services = document.getElementById('editAppointmentService').value;
+  let service_id = [];
+
+  // Pegando os serviços (input de texto separado por vírgula)
+  const appointment_services = services.split(',').map(s => s.trim()).filter(Boolean);
 
   // Pegando os serviços (checkboxes marcados)
   const serviceInputs = document.querySelectorAll('input[name="serviceEdit[]"]:checked');
-  const service_id = Array.from(serviceInputs).map(i => i.value);
-  console.log("Serviços selecionados:", service_id);
+  if(appointment_services.length === 0 && serviceInputs.length === 0) {
+    alert("Nenhum serviço selecionado.");
+  }
+  else {
+    service_id = Array.from(serviceInputs).map(i => i.value);
+    console.log("Serviços selecionados:", service_id);
+  }
 
 
   // Pegando barbeiro (caso tenha select de barber no form)
@@ -191,19 +201,21 @@ document.getElementById('editAppointmentForm').onsubmit = async function(e) {
   if (barber_id) payload.barber_id = barber_id;
   if (client_id) payload.client_id = client_id;
 
-  const res = await fetch('/.netlify/functions/appointments-put', {
-    method: 'PUT',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(payload)
-  });
-  const { error } = await res.json();
-  if (error) {
-    alert('Erro ao atualizar!');
-  } else {
-    alert('Agendamento atualizado!');
-    document.getElementById('editAppointmentModal').style.display = 'none';
-    carregarAgendamentosDia(filterDate.value); 
-  }
+  console.log("Payload para atualizar agendamento:", payload);
+
+  // const res = await fetch('/.netlify/functions/appointments-put', {
+  //   method: 'PUT',
+  //   headers: {'Content-Type': 'application/json'},
+  //   body: JSON.stringify(payload)
+  // });
+  // const { error } = await res.json();
+  // if (error) {
+  //   alert('Erro ao atualizar!');
+  // } else {
+  //   alert('Agendamento atualizado!');
+  //   document.getElementById('editAppointmentModal').style.display = 'none';
+  //   carregarAgendamentosDia(filterDate.value); 
+  // }
 };
 
 

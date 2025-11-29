@@ -66,23 +66,21 @@
                 </div>
             </div>
 
-            <!-- Passo 2: Data e Hora -->
             <div class="step" data-step="2">
               <div class="mb-3">
                 <label for="date" class="form-label fw-bold">Data</label>
                 <input type="date" id="date" class="form-control" required>
               </div>
-              <div class="mb-3">
-                <label for="time" class="form-label fw-bold">Hora</label>
-                <select id="time" class="form-select" required>
-                  <option value="">Selecione...</option>
-                </select>
+              <div class="mb-3" id="horarios-area" style="display:none;">
+                <label class="form-label fw-bold">Horário</label>
+                <div id="horarios-list" class="d-flex flex-wrap gap-2"></div>
               </div>
               <div class="d-flex justify-content-between">
                 <button type="button" id="prev2" class="btn btn-secondary">Anterior</button>
                 <button type="button" id="next2" class="btn btn-danger retro-btn">Próximo</button>
               </div>
             </div>
+
 
             <!-- Passo 3: Barbeiro -->
             <div class="step" data-step="3">
