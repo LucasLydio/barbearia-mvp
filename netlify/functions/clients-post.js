@@ -16,10 +16,10 @@ exports.handler = async function(event, context) {
     const body = JSON.parse(event.body);
 
     // Agora email é obrigatório também!
-    if (!body.name || !body.telephone || !body.email) {
+    if (!body.name || !body.telephone ) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: 'Campos obrigatórios: name, telephone e email' }),
+        body: JSON.stringify({ error: 'Campos obrigatórios: name, telephone' }),
       };
     }
 

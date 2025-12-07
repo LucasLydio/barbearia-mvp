@@ -18,7 +18,7 @@ addClientForm.onsubmit = async function(e) {
   const telephone = document.getElementById('newClientTelephone').value.trim();
   const email = document.getElementById('newClientEmail').value.trim();
 
-  if (!name || !telephone || !email) {
+  if (!name || !telephone) {
     alert("Preencha todos os campos.");
     return;
   }
