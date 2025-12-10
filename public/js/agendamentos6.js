@@ -39,7 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
         time: formData.time,
         barber_id: formData.barber,
         client_id: formData.clientId,
-        note: formData.note || ''
+        note: formData.note || '',
+        phone: 55 + formData.telephone || 0,
       };
 
       console.log('Enviando payload para salvar agendamento:', payload);

@@ -1,4 +1,5 @@
 const { createAppointment } = require('./apiAppointments.js');
+const { sendWhatsAppMessage } = require('./twilioClient.js');
 require('dotenv').config();
 
 exports.handler = async function(event, context) {
@@ -24,8 +25,21 @@ exports.handler = async function(event, context) {
         body: JSON.stringify({ error: 'Campos obrigatórios faltando!' }),
       };
     }
+    const msg =
+      `Olá! Seu agendamento foi recebido.\n\n` +
+      `📅 Data: \n🕒 Hora: \n\n\n` +
+      `Aguarde a confirmação do barbeiro.`;
 
-    const appointment = await createAppointment(body);
+
+    const { date, time, service_id, barber_id, client_id, note } = body;
+
+    console.log( date, time, service_id, barber_id, client_id, note)
+
+    const teste = { date, time, service_id, barber_id, client_id, note };
+
+    const appointment = await createAppointment(teste);
+
+    // await sendWhatsAppMessage(body.phone, msg); 
 
     return {
       statusCode: 201,
