@@ -59,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
       whatsappBtn.href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
       whatsappBtn.target = '_blank';
       whatsappBtn.rel = 'noopener';
-      alert('Agendamento salvo com sucesso! Agora você será redirecionado ao WhatsApp.');
 
       // Opcional: pode abrir automaticamente
       if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
