@@ -56,18 +56,23 @@ document.addEventListener('DOMContentLoaded', () => {
       // 2. Monta link do WhatsApp e abre (como antes)
       const waNumber = '5562991300232'; // Substitua pelo número do salão
       const waText = getWhatsappText();
-      whatsappBtn.href = `https://api.whatsapp.com/send?phone=${waNumber}&text=${encodeURIComponent(waText)}`;
+      whatsappBtn.href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
       whatsappBtn.target = '_blank';
       whatsappBtn.rel = 'noopener';
+      alert('Agendamento salvo com sucesso! Agora você será redirecionado ao WhatsApp.');
 
       // Opcional: pode abrir automaticamente
-      alert('Agendamento salvo com sucesso! Agora você será redirecionado ao WhatsApp.');
-      window.open(whatsappBtn.href, '_blank');
+      if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        window.location.href = whatsappBtn.href;
+      } else {
+        window.open(whatsappBtn.href, '_blank');
+      }
 
       // Volta botão ao normal
       whatsappBtn.disabled = false;
       whatsappBtn.innerHTML = `<i class="bi bi-whatsapp me-2"></i>Enviar pelo WhatsApp`;
       // popup agendamento concluído
+
       formData = {}; // limpa formData após envio
       window.location.reload();
       showStep(1); // volta ao passo 1 ou outro comportamento desejado
