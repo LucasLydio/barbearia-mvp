@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
           window.location.reload();
           // Ou: showStep(1);
           // Ou: qualquer outro fluxo desejado
-        }, 2500);
+        }, 5500);
       } else {
         window.open(waLink, '_blank');
 
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
           window.location.reload();
           // Ou: showStep(1);
-        }, 2000);
+        }, 5500);
       }
 
     } catch (err) {
