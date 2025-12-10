@@ -60,21 +60,25 @@ document.addEventListener('DOMContentLoaded', () => {
       whatsappBtn.target = '_blank';
       whatsappBtn.rel = 'noopener';
 
-      // Opcional: pode abrir automaticamente
       if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
         window.location.href = whatsappBtn.href;
+
+        // Aguarda 2,5 segundos antes de recarregar ou avançar etapa
+        setTimeout(() => {
+          // ⚠️ Nem sempre vai funcionar no iOS (Safari “congela” a página)
+          window.location.reload();
+          // Ou: showStep(1);
+          // Ou: qualquer outro fluxo desejado
+        }, 2500);
       } else {
-        window.open(whatsappBtn.href, '_blank');
+        window.open(waLink, '_blank');
+
+        // Para desktop, o delay funciona normal
+        setTimeout(() => {
+          window.location.reload();
+          // Ou: showStep(1);
+        }, 2000);
       }
-
-      // Volta botão ao normal
-      whatsappBtn.disabled = false;
-      whatsappBtn.innerHTML = `<i class="bi bi-whatsapp me-2"></i>Enviar pelo WhatsApp`;
-      // popup agendamento concluído
-
-      formData = {}; // limpa formData após envio
-      window.location.reload();
-      showStep(1); // volta ao passo 1 ou outro comportamento desejado
 
     } catch (err) {
       alert(err.message || 'Erro ao salvar!');
