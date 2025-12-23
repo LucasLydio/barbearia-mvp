@@ -150,17 +150,39 @@
                     </div>
                     <div class="mb-2 d-flex align-items-end gap-2">
                         <div class="flex-grow-1">
-                            <label for="apptClient" class="form-label">Cliente</label>
-                            <select id="apptClient" class="form-select" required>
-                                <option value="">Selecione o cliente...</option>
-                            </select>
+                            <label for="apptClientSearch" class="form-label">Buscar cliente</label>
+                            <input
+                            type="text"
+                            id="apptClientSearch"
+                            class="form-control"
+                            placeholder="Digite nome..."
+                            autocomplete="off"
+                            />
                         </div>
+
                         <button type="button" id="addClientBtn" class="btn btn-outline-dark" title="Adicionar novo cliente">
                             <i class="bi bi-plus-circle"></i>
                         </button>
                     </div>
 
+                    <!-- Selected client preview -->
                     <div class="mb-2">
+                        <div class="border rounded px-3 py-2 d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold" id="selectedClientName">Nenhum cliente selecionado</div>
+                                <small class="text-muted" id="selectedClientTel">—</small>
+                            </div>
+                            <span class="badge bg-dark" id="selectedClientBadge" style="display:none;">Selecionado</span>
+                        </div>
+                        <input type="hidden" id="apptClientId" value="">
+                    </div>
+
+                    <!-- Paginated list -->
+                    <div id="apptClientList" class="mt-2"></div>
+                    <div id="apptClientPagination" class="d-flex justify-content-between align-items-center mt-2"></div>
+
+
+                    <div class="mb-2 my-3">
                         <label>Observações:</label>
                         <input type="text" class="form-control" id="apptNote">
                     </div>
@@ -293,6 +315,7 @@
     <script src="js/xlsKy-appt2.js"></script>
     <script src="js/xlsKy-appt3.js"></script>
     <script src="js/xlsKy-appt4.js"></script>
+    <script src="js/xlsKy-appt5.js"></script>
     <script src="js/xlsKy4.js"></script>
     <script src="js/xlsKy5.js"></script>
     <script src="js/include.js"></script>

@@ -1,5 +1,6 @@
 // js/xlsKy.js
 
+
 function decodeToken(token) {
   try {
     return JSON.parse(atob(token));
@@ -23,6 +24,7 @@ let loading = true;
 
 let appointments = [ ];
 
+
 function formatLocalDate(dateObj) {
   return dateObj.getFullYear() + "-" + String(dateObj.getMonth()+1).padStart(2,"0") + "-" + String(dateObj.getDate()).padStart(2,"0");
 }
@@ -39,14 +41,14 @@ async function fetchAppointmentsMonth(month, year) {
   const startDate = `${year}-${String(month + 1).padStart(2,'0')}-01`;
   const endDate = ymdLocal(new Date(year, month + 1, 0));
 
-  const limit = 200;         // can keep 200
+  const limit = 300;        
   let page = 1;
   let all = [];
 
   while (true) {
     const url =
       `/.netlify/functions/appointments-get` +
-      `?barber_id=${encodeURIComponent(barber_id)}` +   // IMPORTANT: filter by barber
+      `?barber_id=${encodeURIComponent(barber_id)}` +   
       `&start_date=${startDate}&end_date=${endDate}` +
       `&page=${page}&limit=${limit}`;
 
@@ -85,17 +87,6 @@ async function loadServicesOptions() {
   });
 }
 
-async function loadClientsOptions() {
-  const res = await fetch('/.netlify/functions/clients-get?limit=100'); // pode ajustar limite
-  const { data: clients } = await res.json();
-  const select = document.getElementById('apptClient');
-  select.innerHTML = '<option value="">Selecione o cliente...</option>';
-  (clients || []).forEach(c => {
-    select.innerHTML += `<option value="${c.id}">${c.name} (${c.telephone})</option>`;
-  });
-}
-
-
 function getDaysMatrix(month, year) {
   const matrix = [];
   const firstDay = new Date(year, month, 1).getDay();
@@ -115,12 +106,6 @@ function getDaysMatrix(month, year) {
   }
   return matrix;
 }
-
-function hasAppointment(d) {
-  const ymd = formatLocalDate(d);
-  return appointments.some(a => a.date === ymd);
-}
-
 
 
 function showLoading(containerId, text = "Carregando...") {
@@ -258,7 +243,17 @@ document.getElementById('closeModal').onclick = () => {
 
 document.getElementById('openCreateForm').onclick = async () => {
   await loadServicesOptions();
-  await loadClientsOptions();  
+
+  ClientPicker.init({
+    searchId: "apptClientSearch",
+    listId: "apptClientList",
+    paginationId: "apptClientPagination",
+    hiddenId: "apptClientId",
+    selectedNameId: "selectedClientName",
+    selectedTelId: "selectedClientTel",
+    badgeId: "selectedClientBadge",
+  });
+
   document.getElementById('createForm').style.display = '';
   document.getElementById('openCreateForm').style.display = 'none';
 };
@@ -271,14 +266,14 @@ document.getElementById('createForm').onsubmit = async function(e) {
   
   const ymd = selectedDate.toISOString().slice(0, 10);
   const time = document.getElementById('apptTime').value;
-  const clientName = document.getElementById('apptClient').value;
+
   const note = document.getElementById('apptNote').value;
   const service_id = document.getElementById('apptService').value;
-  const client_id = document.getElementById('apptClient').value;
+  const client_id = document.getElementById('apptClientId').value;
 
 
 
-  if (!time || !clientName || !service_id) {
+  if (!time || !client_id || !service_id) {
     alert("Preencha o horário, cliente e serviço.");
     return;
   }
