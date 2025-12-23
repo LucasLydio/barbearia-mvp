@@ -1,20 +1,36 @@
-function getMockTimes() {
+function getMockTimes(dateInput) {
   const times = [];
+  const now = new Date();
+
+  if (!dateInput?.value) return times; 
+
+  const [y, m, d] = dateInput.value.split('-').map(Number);
+  const selectedDate = new Date(y, m - 1, d);
+
+  const isToday = selectedDate.toDateString() === now.toDateString();
+
+
+  const nowMinutes = now.getHours() * 60 + now.getMinutes() + 30;
+
   for (let h = 9; h <= 19; h++) {
     ['00', '30'].forEach(min => {
-      if (h === 19 && min === '30') return; // Não adiciona 19:30
-      // Só adiciona "09:30" para as 9h (pula "09:00")
+      if (h === 19 && min === '30') return;
       if (h === 9 && min === '00') return;
-      times.push(`${h.toString().padStart(2, '0')}:${min}`);
+
+      const timeMinutes = h * 60 + Number(min);
+
+      if (!isToday || timeMinutes >= nowMinutes) {
+        times.push(`${h.toString().padStart(2, '0')}:${min}`);
+      }
     });
   }
+
   return times;
 }
 
 
-// =====================================
-// BUSCA HORÁRIOS OCUPADOS DA API (REAL)
-// =====================================
+
+
 async function fetchBusyTimes(dateYMD) {
   if (!dateYMD) return [];
 
@@ -36,11 +52,16 @@ async function fetchBusyTimes(dateYMD) {
   }
 }
 
-// =====================================
-// RENDERIZA BOTÕES DE HORÁRIO (TOGGLES)
-// =====================================
+
 function renderTimeToggles(availableTimes) {
   const horariosList = document.getElementById('horarios-list');
+  const msg = document.createElement('div');
+  const span = document.createElement('span');
+
+  span.className = 'fw-bold my-2';
+  span.textContent = 'Não há horários disponíveis!';
+
+  msg.appendChild(span);
   horariosList.innerHTML = '';
 
   availableTimes.forEach(time => {
@@ -58,13 +79,13 @@ function renderTimeToggles(availableTimes) {
 
     horariosList.appendChild(btn);
   });
+
+  if (availableTimes.length === 0) horariosList.appendChild(msg);
 }
 
-// =====================================
-// LÓGICA PRINCIPAL DO STEP 2
-// =====================================
 document.addEventListener('DOMContentLoaded', () => {
-  const dateInput = document.getElementById('date');
+
+
   const horariosArea = document.getElementById('horarios-area');
   const horariosList = document.getElementById('horarios-list');
   const btnNext2 = document.getElementById('next2');
@@ -72,34 +93,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   horariosArea.style.display = 'none';
 
-  // ------------------------------------------------------
-  // QUANDO A DATA É SELECIONADA → CARREGAR HORÁRIOS
-  // ------------------------------------------------------
+
+  const dateInput = document.getElementById('date');
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.setAttribute('min', today);
+
   dateInput.addEventListener('change', async () => {
     formData.date = dateInput.value;
-    formData.time = ''; // Reset
+    formData.time = '';
 
     if (!formData.date) {
       horariosArea.style.display = 'none';
       return;
     }
 
-    console.log("📅 Data selecionada:", formData.date);
-
-    // 1. Busca horários ocupados
     const busyTimes = await fetchBusyTimes(formData.date);
-    console.log("⛔ Ocupados:", busyTimes);
+    const availableTimes = getMockTimes(dateInput).filter(t => !busyTimes.includes(t));
 
-    // 2. Gera horários livres
-    const availableTimes = getMockTimes().filter(t => !busyTimes.includes(t));
-    console.log("✅ Disponíveis:", availableTimes);
-
-    // 3. Renderiza opções disponíveis
     renderTimeToggles(availableTimes);
     horariosArea.style.display = '';
   });
 
-  // Próximo step
+
   btnNext2.addEventListener('click', () => {
     if (!formData.date) {
       alert('Escolha uma data primeiro!');
@@ -115,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof showStep === 'function') showStep(3);
   });
 
-  // Step anterior
+
   btnPrev2.addEventListener('click', () => {
     if (typeof showStep === 'function') showStep(1);
   });

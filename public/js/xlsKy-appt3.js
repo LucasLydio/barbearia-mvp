@@ -23,17 +23,47 @@ let loading = true;
 
 let appointments = [ ];
 
-async function fetchAppointmentsMonth(month, year) {
-
-  const startDate = `${year}-${String(month+1).padStart(2,'0')}-01`;
-  const endDate = new Date(year, month+1, 0).toISOString().slice(0,10);
-// appointments/handler/
-  const url = '/.netlify/functions/appointments-get';
-  const res = await fetch(url+`?start_date=${startDate}&end_date=${endDate}&limit=200`);
-  const { data } = await res.json();
-  loading = false;
-  return data || [];
+function formatLocalDate(dateObj) {
+  return dateObj.getFullYear() + "-" + String(dateObj.getMonth()+1).padStart(2,"0") + "-" + String(dateObj.getDate()).padStart(2,"0");
 }
+
+
+function ymdLocal(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+async function fetchAppointmentsMonth(month, year) {
+  const startDate = `${year}-${String(month + 1).padStart(2,'0')}-01`;
+  const endDate = ymdLocal(new Date(year, month + 1, 0));
+
+  const limit = 200;         // can keep 200
+  let page = 1;
+  let all = [];
+
+  while (true) {
+    const url =
+      `/.netlify/functions/appointments-get` +
+      `?barber_id=${encodeURIComponent(barber_id)}` +   // IMPORTANT: filter by barber
+      `&start_date=${startDate}&end_date=${endDate}` +
+      `&page=${page}&limit=${limit}`;
+
+    const res = await fetch(url);
+    const { data } = await res.json();
+
+    const batch = data || [];
+    all = all.concat(batch);
+
+    if (batch.length < limit) break; // no more pages
+    page++;
+    if (page > 50) break; // safety guard
+  }
+
+  return all;
+}
+
 
 async function fetchAppointmentsByDay(dateYMD) {
   const url = `/.netlify/functions/appointments-get?date=${dateYMD}&limit=200`;
@@ -87,9 +117,11 @@ function getDaysMatrix(month, year) {
 }
 
 function hasAppointment(d) {
-  const ymd = d.toISOString().slice(0,10);
+  const ymd = formatLocalDate(d);
   return appointments.some(a => a.date === ymd);
 }
+
+
 
 function showLoading(containerId, text = "Carregando...") {
   const container = document.getElementById(containerId);
@@ -113,36 +145,47 @@ function hideLoading(containerId) {
 
 
 async function renderCalendar() {
-
   const weeksContainer = document.getElementById('calendar-weeks');
-
   showLoading('calendar-weeks', 'Carregando calendário...');
 
-  appointments = await fetchAppointmentsMonth(currentMonth, currentYear);
+  const appts = await fetchAppointmentsMonth(currentMonth, currentYear);
 
-  document.getElementById('calendarTitle').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+  // Set of days that have appointments
+  const daysWithAppt = new Set(appts.map(a => a.date)); // expecting 'YYYY-MM-DD'
+
+  document.getElementById('calendarTitle').textContent =
+    `${monthNames[currentMonth]} ${currentYear}`;
   weeksContainer.innerHTML = '';
+
   const matrix = getDaysMatrix(currentMonth, currentYear);
 
   matrix.forEach(week => {
     const weekRow = document.createElement('div');
     weekRow.className = 'calendar-week';
+
     week.forEach(day => {
       const el = document.createElement('span');
       el.className = 'calendar-day';
+
+      const ymd = ymdLocal(day.date);
+
       if (!day.isCurrentMonth) el.classList.add('not-current-month');
-      if (hasAppointment(day.date) && day.isCurrentMonth) el.classList.add('has-appointment');
-      if (day.date.toDateString() === today.toDateString()) el.classList.add('today');
+      if (day.isCurrentMonth && daysWithAppt.has(ymd)) el.classList.add('has-appointment');
+      if (day.date.toDateString() === new Date().toDateString()) el.classList.add('today');
+
       el.textContent = day.date.getDate();
-      el.title = hasAppointment(day.date) ? "Ver agendamentos" : "";
-      if (day.isCurrentMonth) {
-        el.onclick = () => openDayModal(day.date);
-      }
+      el.title = daysWithAppt.has(ymd) ? "Ver agendamentos" : "";
+
+      if (day.isCurrentMonth) el.onclick = () => openDayModal(day.date);
+
       weekRow.appendChild(el);
     });
+
     weeksContainer.appendChild(weekRow);
   });
 }
+
+
 
 document.getElementById('prevMonth').onclick = async () => {
   currentMonth--;
@@ -270,9 +313,6 @@ document.getElementById('createForm').onsubmit = async function(e) {
   document.getElementById('openCreateForm').style.display = '';
 };
 
-
-
-renderCalendar();
 
 document.addEventListener('DOMContentLoaded', () => {
   renderCalendar();

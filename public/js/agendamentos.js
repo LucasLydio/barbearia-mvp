@@ -35,13 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Submete
-  wizardForm.addEventListener('submit', e => {
-    e.preventDefault();
+  // wizardForm.addEventListener('submit', e => {
+  //   e.preventDefault();
 
-    wizardForm.reset();
-    loadTimes();
-    showStep(1);
-  });
+  //   wizardForm.reset();
+  //   loadTimes();
+  //   showStep(1);
+  // });
 
 
 function updateSummary() {
@@ -107,12 +107,6 @@ function updateSummary() {
   const waBtn = document.getElementById('whatsapp-btn');
   waBtn.href = `https://api.whatsapp.com/send?phone=${waNumber2}&text=${encodeURIComponent(waText)}`;
 }
-
-
-
-
-
-  // loadTimes();
 
   showStep(1);
 });

@@ -60,7 +60,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       .map(as => as.services?.name)
       .filter(Boolean)
       .join(", ");
-      console.log(servicos)
     return `
       <div class="card mb-3 shadow-sm border-0">
         <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center">

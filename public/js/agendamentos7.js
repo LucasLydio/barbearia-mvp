@@ -1,42 +1,139 @@
-  // Monta mensagem para o WhatsApp
-  
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+function getPaymentLink() {
+  return formData.paymentLink || "https://cielolink.com.br/4htomi0";
+}
+
+function getPaymentLinkPix() {
+  return formData.paymentLinkPix || "62991300232";
+} 
+
 function formatDateBR(dateStr) {
-  // Suporta formato "2025-11-28"
   const [year, month, day] = dateStr.split('-');
   return `${day}/${month}/${year}`;
 }
 
-  function getWhatsappText() {
+function buildFinalSummary() {
+  const ul = document.getElementById("final-summary");
+  if (!ul) return;
 
-  const waLines = ['*✉️ Pré-Agendamento Valette Barbearia*', ''];
-  
-  waLines.push('Obs: Este é um pré-agendamento. Aguardo confirmação e instruções para pagamento.');
-
-  waLines.push('Cartão 💳 ou Pix ❖ ');
-  waLines.push('\n*Finalize seu pré-agendamento realizando o pagamento!*');
-  waLines.push('\n Obs: O valor do *pré-agendamento (R$ 20,00)* será descontado no valor total do procedimento. ');
-  waLines.push('\n\n*Em caso de imprevisto, reagendamento com a antecedência mínima de 1h*');
-  waLines.push('\n*Tolerância de atraso de 15 min*');
-  waLines.push('\n*Caso falte, não haverá ressarcimento do valor do agendamento.*');
-  waLines.push('\n Após o pagamento via Pix ou link, envie seu comprovante via WhatsApp.');
-  waLines.push('\n\nCartão 💳: https://cielolink.com.br/4htomi0');
-  waLines.push('\n\n Pix ❖: 62991300232');
-  waLines.push('\n*Obrigado!* 🙏');
-
-  waLines.push('\n');
-  waLines.push(`Olá, sou ${formData.clientName} e gostaria de pré-agendar o(s) serviço(s):`);
-  waLines.push(''); 
-  waLines.push(`Serviços: ${Array.isArray(formData.serviceName) ? formData.serviceName.join(', ') : formData.serviceName}`);
-    waLines.push(`Data: ${formatDateBR(formData.date)}`);
-    waLines.push(`Hora: ${formData.time}`);
-    waLines.push(`Barbeiro: ${formData.barberName || formData.barber}`);
-    waLines.push(`Nome: ${formData.clientName}`);
-    waLines.push(`Telefone: ${formData.telephone}`);
-    waLines.push(`Email: ${formData.email}`);
-    if (formData.note) {
-        waLines.push(`Observações: ${formData.note}`);
-    }
-    return `
-        ${waLines.join('\n')}
-          `
+    ul.innerHTML = `
+        <li class="list-group-item"><strong>Serviços:</strong> ${Array.isArray(formData.serviceName) ? formData.serviceName.join(', ') : formData.serviceName}</li>
+        <li class="list-group-item"><strong>Data:</strong> ${formatDateBR(formData.date)}</li>
+        <li class="list-group-item"><strong>Hora:</strong> ${formData.time}</li>
+        <li class="list-group-item"><strong>Barbeiro:</strong> ${formData.barberName || formData.barber}</li>
+        <li class="list-group-item"><strong>Nome:</strong> ${formData.clientName}</li>
+        <li class="list-group-item"><strong>Telefone:</strong> ${formData.telephone}</li>
+        ${formData.note ? `<li class="list-group-item"><strong>Observações:</strong> ${formData.note}</li>` : ''}
+    `;
   }
+
+  function setupFinalStep() {
+    const link = getPaymentLink();
+    const linkPix = getPaymentLinkPix();
+
+    const titleStep = document.getElementById("title");
+    const stepIndicator = document.getElementById("progressbar");
+
+    if (titleStep) titleStep.style.display = 'none';
+    if (stepIndicator) stepIndicator.style.setProperty('display', 'none', 'important');
+
+    const linkText = document.getElementById("paymentLinkText");
+    const openLink = document.getElementById("openPaymentLink");
+
+    const linkTextPix = document.getElementById("paymentLinkTextPix");
+    const openLinkPix = document.getElementById("openPaymentLinkPix");
+
+    if (linkText) linkText.textContent = link;
+    if (openLink) openLink.href = link;
+
+    if (linkTextPix) linkTextPix.textContent = linkPix;
+    if (openLinkPix) openLinkPix.href = linkPix;
+
+    const copyBtn = document.getElementById("copyPaymentLink");
+    const toast = document.getElementById("copyToast");
+    
+    const copyBtnPix = document.getElementById("copyPaymentLinkPix");
+    const toastPix = document.getElementById("copyToastPix");
+
+    if (copyBtn) {
+      copyBtn.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(link);
+          if (toast) {
+            toast.style.display = "";
+            setTimeout(() => (toast.style.display = "none"), 1800);
+          }
+        } catch {
+          alert("Não consegui copiar automaticamente. Copie manualmente o link.");
+        }
+      };
+    }
+
+    if (copyBtnPix) {
+      copyBtnPix.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(linkPix);
+          if (toastPix) {
+            toastPix.style.display = "";
+            setTimeout(() => (toastPix.style.display = "none"), 1800);
+          }
+        } catch {
+          alert("Não consegui copiar automaticamente. Copie manualmente o pix.");
+        }
+      };
+    }
+
+
+    const sendWhatsapp = document.getElementById("whatsProofBtn");
+    if (sendWhatsapp) {
+      
+      sendWhatsapp.onclick = async (e) => {
+
+        sendWhatsapp.disabled = true;
+        sendWhatsapp.innerHTML = 'Finalizando... <i class="bi bi-clock-history ms-2"></i>';
+
+        try {
+          const waNumber = '5562991300232'; 
+          const waText = getWhatsappText();
+          sendWhatsapp.href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
+          sendWhatsapp.target = '_blank';
+          sendWhatsapp.rel = 'noopener';
+          const waLink = sendWhatsapp.href;
+          if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            window.location.href = sendWhatsapp.href;
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 5500);
+          } else {
+            window.open(waLink, '_blank');
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 5500);
+          }
+
+        } catch (err) {
+          alert(err.message || 'Erro ao salvar!');
+          sendWhatsapp.disabled = false;
+          sendWhatsapp.innerHTML = `<i class="bi bi-whatsapp me-2"></i>Finalizar no WhatsApp`;
+          e.preventDefault(); 
+          return false;
+        }
+      };
+    }
+
+    buildFinalSummary();
+  }
+
+  if (typeof showStep === 'function') {
+    const _showStep = showStep;
+    window.showStep = function(n) {
+      _showStep(n);
+      if (n === 6) setupFinalStep();
+    }
+  } 
+});

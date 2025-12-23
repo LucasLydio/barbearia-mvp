@@ -92,7 +92,6 @@ body {
   padding: 0.75rem 1.2rem;
 }
 .btn.retro-btn {
-  border-radius: 2rem;
   font-weight: 700;
   letter-spacing: 1px;
 }
@@ -123,4 +122,94 @@ body {
   background: #dc3545 !important;  /* vermelho, seu tema */
   color: #fff !important;
   border-color: #dc3545 !important;
+}
+
+/* Teste */
+
+.final-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.final-hero {
+  padding: 18px 10px 8px;
+}
+
+.final-check {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 12px;
+  border-radius: 999px;
+  background: rgba(25, 135, 84, 0.16);
+  border: 2px solid rgba(25, 135, 84, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.final-check i {
+  font-size: 2.3rem;
+  color: #19a86b;
+}
+
+.final-title {
+  font-family: 'Staatliches', sans-serif;
+  letter-spacing: 0.6px;
+}
+
+.final-subtitle {
+  color: rgba(255,255,255,0.75);
+}
+
+.final-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.final-label {
+  font-size: .85rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 4px;
+}
+
+.final-link {
+  font-weight: 700;
+  word-break: break-all;
+  color: #fff;
+  font-size: .95rem;
+}
+
+.copy-toast {
+  background: rgba(25, 135, 84, 0.18);
+  border: 1px solid rgba(25, 135, 84, 0.5);
+  color: #d9ffe9;
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+.final-info h6 {
+  color: rgba(255,255,255,0.85);
+}
+
+.final-alert {
+  background: rgba(244, 179, 19, 0.12);
+  border: 1px solid rgba(244, 179, 19, 0.35);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.final-alert-icon {
+  font-size: 2rem;
+  color: #25D366;
+}
+
+.final-alert-title {
+  font-weight: 800;
+  color: rgba(255,255,255,0.92);
+}
+
+.final-alert-text {
+  color: rgba(255,255,255,0.78);
 }

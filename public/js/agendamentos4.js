@@ -61,6 +61,16 @@ async function loadBarbers(query = "", page = 1) {
   updateSelectedBarber();
 
   renderBarberPagination();
+
+  document.getElementById('next3').onclick = async function() {
+    if (formData.barberName === null) {
+      alert("Selecione o barbeiro");
+      showStep(3);
+    }
+    else {
+      return true;
+    }
+  }
 }
 
 window.loadBarbers = loadBarbers;

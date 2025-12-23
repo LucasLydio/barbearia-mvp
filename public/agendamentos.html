@@ -39,7 +39,7 @@
 
         <!-- Wizard de Agendamento -->
         <div class="card shadow-lg border-0 p-4 mb-5 bg-dark text-white">
-          <h2 class="text-center retro-form-title mb-4">Agendamento</h2>
+          <h2 id="title" class="text-center retro-form-title mb-4">Agendamento</h2>
 
           <!-- Indicador de passos -->
           <div id="progressbar" class="d-flex mb-4">
@@ -48,6 +48,7 @@
             <div class="step-indicator">Barbeiro</div>
             <div class="step-indicator">Contato</div>
             <div class="step-indicator">Confirmar</div>
+            <div class="step-indicator">Finalizar</div>
           </div>
 
           <form id="wizard-form" novalidate>
@@ -106,10 +107,10 @@
                 <label for="clientName" class="form-label fw-bold">Seu nome:</label>
                 <input type="text" name="clientName" id="clientName" class="form-control" required placeholder="Luiz Carlos...">
               </div>
-              <div class="mb-3">
+              <!-- <div class="mb-3">
                 <label for="email" class="form-label fw-bold">Seu email:</label>
                 <input type="email" name="email" id="email" class="form-control" required placeholder="Digite seu email...">
-              </div>
+              </div> -->
               <div class="d-flex justify-content-between">
                 <button type="button" id="prev4" class="btn btn-secondary">Anterior</button>
                 <button type="button" id="next4" class="btn btn-danger retro-btn">Próximo</button>
@@ -122,7 +123,7 @@
               <ul class="list-group mb-3 text-dark" id="summary-list"></ul>
               <div class="d-flex w-100 mb-3 container-btn">
                 <a id="whatsapp-btn"
-                  class="btn btn-success btn-lg retro-btn"
+                  class="btn btn-success btn-lg retro-btn d-none"
                   target="_blank"
                   rel="noopener"
                   style="background-color: #25D366; border: none;">
@@ -130,9 +131,121 @@
                 </a>
                 <div class="d-flex justify-content-between w-100 mt-3">
                   <button type="button" id="prev5" class="btn btn-secondary mt-2">Anterior</button>
+
+                  <button type="button" id="confirmBooking" class="btn btn-danger retro-btn">
+                    Confirmar <i class="bi bi-check2-circle ms-2"></i>
+                  </button>
                 </div>
               </div>
             </div>
+
+            <!-- Passo 5: Confirmação Teste -->
+            <!-- <div class="step" data-step="5">
+              <h4 class="mb-3">Confirme suas informações</h4>
+
+              <ul class="list-group mb-3 text-dark" id="summary-list"></ul>
+
+              <div class="d-flex justify-content-between w-100 mt-3">
+                <button type="button" id="prev5" class="btn btn-secondary">Anterior</button>
+
+                <button type="button" id="confirmBooking" class="btn btn-danger retro-btn">
+                  Confirmar Agendamento <i class="bi bi-check2-circle ms-2"></i>
+                </button>
+              </div>
+
+              <div class="text-muted small mt-3">
+                Ao confirmar, você receberá o link de pagamento e instruções para enviar o comprovante no WhatsApp.
+              </div>
+            </div> -->
+
+
+            <!-- Passo 6: Final -->
+            <div class="step" data-step="6">
+              <div class="final-wrap">
+                <div class="final-hero text-center">
+                  <div class="final-check">
+                    <i class="bi bi-check2"></i>
+                  </div>
+
+                  <h3 class="final-title mb-2">Pré-agendamento Realizado!</h3>
+                  <p class="final-subtitle mb-1">
+                    Para finalizar, clique no botão abaixo!
+                    <br>Pré-agendamento (R$ 20,00) para confirmar seu horário.
+                    <br>
+                  </p>
+                  <div class="final-label">Link para pagamento no Whatsapp.</div>
+                  <div class="final-label">Em caso de imprevisto, reagendamento com a antecedência mínima de 1h.</div>
+                </div>
+
+                <div class="final-card mt-4">
+                  <div class="final-alert mt-3 mb-3">
+                    <div class="d-flex gap-3">
+                      <i class="bi bi-whatsapp final-alert-icon"></i>
+                      <div>
+                        <div class="final-alert-title">Importante</div>
+                        <div class="final-alert-text">
+                          <b>Clique aqui no botão</b> abaixo para finalizar o agendamento.
+                        </div>
+                        <a id="whatsProofBtn" class="btn btn-success mt-2" target="_blank" rel="noopener">
+                          <i class="bi bi-whatsapp me-2"></i>Finalizar Agendamento
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-start justify-content-between flex-column gap-2">
+                    <!-- <div>
+                      <div class="final-label">Link de pagamento</div>
+                      <div class="my-1">
+                        <small class="fw-lighter">Cartão:</small>
+                      </div>
+                      <div class="final-link" id="paymentLinkText">--</div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                      <button class="btn btn-success" type="button" id="copyPaymentLink">
+                        <i class="bi bi-copy me-2"></i>Copiar link
+                      </button>
+                      <a class="btn btn-outline-light" id="openPaymentLink" href="#" target="_blank" rel="noopener">
+                        <i class="bi bi-box-arrow-up-right me-2"></i>Abrir
+                      </a>
+                    </div> -->
+
+                    <!-- <div class="my-1">
+                      <small class="fw-lighter">Pix:</small>
+                      <div class="final-link" id="paymentLinkTextPix"></div>
+                    </div>
+                    <div class="d-flex gap-2">
+                      <button class="btn btn-success" type="button" id="copyPaymentLinkPix">
+                        <i class="bi bi-copy me-2"></i>Copiar Pix
+                      </button>
+                    </div> -->
+                  </div>
+
+                  <div class="copy-toast mt-3" id="copyToast" style="display:none;">
+                    <i class="bi bi-check-circle me-2"></i>Link copiado!
+                  </div>
+
+                  <div class="copy-toast mt-3" id="copyToastPix" style="display:none;">
+                    <i class="bi bi-check-circle me-2"></i>Pix copiado!
+                  </div>
+                </div>
+
+                <div class="final-info mt-4">
+                  <h6 class="mb-2">Resumo do agendamento</h6>
+                  <ul class="list-group text-dark" id="final-summary"></ul>
+                </div>
+
+                <div class="d-flex justify-content-between w-100 mt-4">
+                  <!-- <button type="button" id="backToSummary" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Voltar
+                  </button> -->
+                  <a href="/agendamentos.html" class="btn btn-outline-light">
+                    <i class="bi bi-house-door me-2"></i>Ir para início
+                  </a>
+                </div>
+              </div>
+            </div>
+
 
             </div>
 
@@ -164,6 +277,7 @@
   <script src="js/agendamentos5.js"></script>
   <script src="js/agendamentos6.js"></script>
   <script src="js/agendamentos7.js"></script>
+  <script src="js/agendamentos8.js"></script>
   <script src="js/include.js"></script>
 </body>
 </html>
