@@ -30,6 +30,34 @@ function buildFinalSummary() {
     `;
   }
 
+  function openWhatsAppMobile({ waNumber, waText }) {
+    const text = encodeURIComponent(waText);
+    const phone = waNumber.replace(/\D/g, "");
+
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    // Deep link (tries to open the app)
+    const deepLink = `whatsapp://send?phone=${phone}&text=${text}`;
+
+    // Web fallback
+    const webLink = `https://wa.me/${phone}?text=${text}`;
+
+    if (!isMobile) {
+      // Desktop: open web in new tab
+      window.open(webLink, "_blank", "noopener");
+      return;
+    }
+
+    // Mobile: try opening the app
+    window.location.href = deepLink;
+
+    // Fallback after a short delay if app didn't open
+    setTimeout(() => {
+      window.location.href = webLink;
+    }, 4700);
+  }
+
+
   function setupFinalStep() {
     const link = getPaymentLink();
     const linkPix = getPaymentLinkPix();
@@ -98,23 +126,30 @@ function buildFinalSummary() {
         try {
           const waNumber = '5562991300232'; 
           const waText = getWhatsappText();
-          sendWhatsapp.href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
-          sendWhatsapp.target = '_blank';
-          sendWhatsapp.rel = 'noopener';
-          const waLink = sendWhatsapp.href;
-          if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            window.location.href = sendWhatsapp.href;
+          // sendWhatsapp.href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
+          // sendWhatsapp.target = '_blank';
+          // sendWhatsapp.rel = 'noopener';
+          // const waLink = sendWhatsapp.href;
+          //   window.location.href = sendWhatsapp.href;
+          openWhatsAppMobile({ waNumber, waText });
 
             setTimeout(() => {
               window.location.reload();
             }, 5500);
-          } else {
-            window.open(waLink, '_blank');
 
-            setTimeout(() => {
-              window.location.reload();
-            }, 5500);
-          }
+          // if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+          //   window.location.href = sendWhatsapp.href;
+
+          //   setTimeout(() => {
+          //     window.location.reload();
+          //   }, 5500);
+          // } else {
+          //   window.open(waLink, '_blank');
+
+          //   setTimeout(() => {
+          //     window.location.reload();
+          //   }, 5500);
+          // }
 
         } catch (err) {
           alert(err.message || 'Erro ao salvar!');
