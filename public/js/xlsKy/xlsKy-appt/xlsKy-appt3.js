@@ -12,6 +12,7 @@ function decodeToken(token) {
 const barberToken = localStorage.getItem('valette_barber_token');
 const barberData = barberToken ? decodeToken(barberToken) : null;
 const barber_id = barberData?.id;
+const role = barberData?.role;
 
 
 
@@ -241,6 +242,47 @@ document.getElementById('closeModal').onclick = () => {
   document.getElementById('dayModal').style.display = 'none';
 };
 
+async function loadBarbersOptionsForOwner() {
+  const select = document.getElementById('apptBarber');
+  if (!select) return;
+
+  select.innerHTML = `<option value="">Carregando barbeiros...</option>`;
+
+  // pega muitos de uma vez (simples e bom pro MVP)
+  // se quiser paginar depois, a gente troca para um picker igual ao de clientes
+  const page = 1;
+  const limit = 200;
+
+  const url = `/.netlify/functions/barbers-get?page=${page}&limit=${limit}`;
+  const res = await fetch(url);
+  const json = await res.json();
+
+  const barbers = json?.data || [];
+  if (!barbers.length) {
+    select.innerHTML = `<option value="">Nenhum barbeiro encontrado</option>`;
+    return;
+  }
+
+  select.innerHTML = `<option value="">Selecione o barbeiro...</option>` + barbers
+    .map(b => `<option value="${b.id}">${b.name}</option>`)
+    .join('');
+}
+
+function setBarberSelectVisibility(role) {
+  const barberSelect = document.getElementById('apptBarber');
+  const hint = document.getElementById('apptBarberHint');
+  if (!barberSelect) return;
+
+  const isColab = String(role || '').trim().toLowerCase() === 'colaborador';
+
+  // Colaborador: não escolhe barber, usa o do token
+  barberSelect.disabled = isColab;
+  barberSelect.closest('.mb-2') && (barberSelect.closest('.mb-2').style.display = isColab ? 'none' : '');
+  if (hint) hint.style.display = isColab ? '' : 'none';
+}
+
+
+
 document.getElementById('openCreateForm').onclick = async () => {
   await loadServicesOptions();
 
@@ -254,27 +296,44 @@ document.getElementById('openCreateForm').onclick = async () => {
     badgeId: "selectedClientBadge",
   });
 
+  // role vem do token (você já tem no controll.js)
+  setBarberSelectVisibility(role);
+
+  // Só o dono precisa carregar lista de barbeiros
+  const isOwner = String(role || '').trim().toLowerCase() === 'dono';
+  if (isOwner) {
+    await loadBarbersOptionsForOwner();
+  }
+
+
+
   document.getElementById('createForm').style.display = '';
   document.getElementById('openCreateForm').style.display = 'none';
 };
 
-
 document.getElementById('createForm').onsubmit = async function(e) {
   e.preventDefault();
 
-  tokenBarberId = localStorage.getItem('valette_barber_id') || "";
-  
   const ymd = selectedDate.toISOString().slice(0, 10);
   const time = document.getElementById('apptTime').value;
-
   const note = document.getElementById('apptNote').value;
   const service_id = document.getElementById('apptService').value;
   const client_id = document.getElementById('apptClientId').value;
 
+  const isOwner = String(role || '').trim().toLowerCase() === 'owner';
 
+  // ✅ owner escolhe no select, colaborador usa o barber_id do token
+  const selectedBarberId = isOwner
+    ? document.getElementById('apptBarber')?.value
+    : barber_id;
 
   if (!time || !client_id || !service_id) {
     alert("Preencha o horário, cliente e serviço.");
+    return;
+  }
+
+  if (isOwner && !selectedBarberId) {
+    alert("Selecione o barbeiro.");
     return;
   }
 
@@ -282,7 +341,7 @@ document.getElementById('createForm').onsubmit = async function(e) {
     date: ymd,
     time,
     service_id,
-    barber_id, 
+    barber_id: selectedBarberId,
     client_id,
     note
   };
@@ -296,7 +355,7 @@ document.getElementById('createForm').onsubmit = async function(e) {
   const result = await res.json();
 
   if (result.error) {
-    alert("Erro ao criar agendamento.");
+    alert(result.error || "Erro ao criar agendamento.");
     return;
   }
 
@@ -311,4 +370,13 @@ document.getElementById('createForm').onsubmit = async function(e) {
 
 document.addEventListener('DOMContentLoaded', () => {
   renderCalendar();
+
+  const role = (barberData?.role || '').trim().toLowerCase();
+  console.log(role)
+
+  // esconde tudo que está dentro de #owner
+  const ownerEl = document.getElementById('owner');
+  if (ownerEl && role === 'colaborador') {
+    ownerEl.style.display = 'none';
+  }
 });
