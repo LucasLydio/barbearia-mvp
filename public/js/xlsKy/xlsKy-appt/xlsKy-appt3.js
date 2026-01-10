@@ -376,7 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // esconde tudo que está dentro de #owner
   const ownerEl = document.getElementById('owner');
-  if (ownerEl && role === 'colaborador') {
+  if (ownerEl && role === 'cooperador') {
     ownerEl.style.display = 'none';
   }
 });
