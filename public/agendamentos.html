@@ -67,35 +67,78 @@
                 </div>
             </div>
 
+            <!-- Passo 2: Data + Barbeiro + Horário (tudo no mesmo passo) -->
             <div class="step" data-step="2">
+              <!-- Data -->
               <div class="mb-3">
                 <label for="date" class="form-label fw-bold">Data</label>
                 <input type="date" id="date" class="form-control" required>
+                <small class="text-white d-block mt-1">
+                  Selecione a data e depois escolha um barbeiro para ver os horários disponíveis.
+                </small>
               </div>
+
+              <!-- Barbeiro -->
+              <div class="mb-3">
+                <label class="form-label fw-bold">Escolha o barbeiro</label>
+
+                <input
+                  type="text"
+                  id="barberSearch"
+                  class="form-control mb-2"
+                  placeholder="Buscar barbeiro..."
+                  autocomplete="off"
+                >
+
+                <div id="barbers-list" class="d-grid gap-2"></div>
+
+                <div
+                  id="paginationBarbers"
+                  class="d-flex justify-content-between align-items-center mt-2"
+                ></div>
+              </div>
+
+              <!-- Horários -->
               <div class="mb-3" id="horarios-area" style="display:none;">
                 <label class="form-label fw-bold">Horário</label>
                 <div id="horarios-list" class="d-flex flex-wrap gap-2"></div>
               </div>
+
+              <!-- Navegação -->
               <div class="d-flex justify-content-between">
                 <button type="button" id="prev2" class="btn btn-secondary">Anterior</button>
-                <button type="button" id="next2" class="btn btn-danger retro-btn">Próximo</button>
+                <button type="button" id="next2" class="btn btn-danger retro-btn">
+                  Próximo
+                </button>
               </div>
             </div>
+
 
 
             <!-- Passo 3: Barbeiro -->
-            <div class="step" data-step="3">
+            <!-- <div class="step" data-step="3">
               <div class="mb-3">
                 <label class="form-label fw-bold">Escolha o barbeiro</label>
-                <input type="text" id="barberSearch" class="form-control mb-3" placeholder="Buscar barbeiro...">
+                <input
+                  type="text"
+                  id="barberSearch"
+                  class="form-control mb-3"
+                  placeholder="Buscar barbeiro..."
+                  autocomplete="off"
+                >
+
                 <div id="barbers-list" class="d-grid gap-3"></div>
                 <div id="paginationBarbers" class="d-flex justify-content-between align-items-center mt-3"></div>
               </div>
+
               <div class="d-flex justify-content-between">
                 <button type="button" id="prev3" class="btn btn-secondary">Anterior</button>
-                <button type="button" id="next3" class="btn btn-danger retro-btn">Próximo</button>
+                <button type="button" id="next3" class="btn btn-danger retro-btn">
+                  Próximo <i class="bi bi-arrow-right ms-2"></i>
+                </button>
               </div>
-            </div>
+            </div> -->
+
 
             <!-- Passo 4: Contato -->
             <div class="step" data-step="4">
@@ -273,7 +316,7 @@
   <script src="js/agendamentos/agendamentos.js"></script>
   <script src="js/agendamentos/agendamentos2.js"></script>
   <script src="js/agendamentos/agendamentos3.js"></script>
-  <script src="js/agendamentos/agendamentos4.js"></script>
+  <!-- <script src="js/agendamentos/agendamentos4.js"></script> -->
   <script src="js/agendamentos/agendamentos5.js"></script>
   <script src="js/agendamentos/agendamentos6.js"></script>
   <script src="js/agendamentos/agendamentos7.js"></script>
