@@ -85,56 +85,78 @@
          <!-- =========================
         APPOINTMENTS MANAGER (COMPONENT)
         ========================= -->
-        <section class="second-container w-100 d-flex justify-content-center mt-4 px-3" id="owner">
-        <div class="col-12 col-lg-10">
-            <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
-            <div>
-                <h4 class="mb-1 fw-bolder">Controle de Agendamentos</h4>
-                <small class="text-muted">Edite, delete e controle horários indisponíveis.</small>
-            </div>
-
-            <button class="btn btn-dark" id="amOpenAvailability">
-                <i class="bi bi-slash-circle me-1"></i> Controlar horários (Indisponível)
-            </button>
-            </div>
-
-            <div class="row g-2 align-items-end mb-3">
-                <div class="col-12 col-md-4">
-                    <label class="form-label fw-bold mb-1">Data</label>
-                    <input type="date" id="amDate" class="form-control" />
+        <div id="owner">
+            <section class="second-container w-100 d-flex justify-content-center mt-4 px-3" >
+            <div class="col-12 col-lg-10">
+                <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+                <div>
+                    <h4 class="mb-1 fw-bolder">Controle de Agendamentos</h4>
+                    <small class="text-muted">Edite, delete e controle horários indisponíveis.</small>
                 </div>
 
-                <div class="col-12 col-md-5">
-                    <label class="form-label fw-bold mb-1">Barbeiro</label>
-                    <!-- Friendly picker: input + dropdown list -->
-                    <div class="border rounded p-2 bg-white">
-                    <input
-                        type="text"
-                        id="amBarberSearch"
-                        class="form-control"
-                        placeholder="Buscar barbeiro..."
-                        autocomplete="off"
-                    />
-                    <div id="amBarberList" class="mt-2"></div>
-                    <div id="amBarberPagination" class="d-flex justify-content-between align-items-center mt-2"></div>
-                    <input type="hidden" id="amBarberId" value="" />
-                    <div class="d-flex justify-content-between align-items-center mt-2">
-                        <small class="text-muted" id="amBarberSelectedLabel">Nenhum barbeiro selecionado</small>
-                        <button type="button" id="amClearBarber" class="btn btn-sm btn-outline-dark">Limpar</button>
+                <button class="btn btn-dark" id="amOpenAvailability">
+                    <i class="bi bi-slash-circle me-1"></i> Controlar horários (Indisponível)
+                </button>
+                </div>
+
+                <div class="row g-2 align-items-end mb-3">
+                    <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold mb-1">Data</label>
+                        <input type="date" id="amDate" class="form-control" />
                     </div>
+
+                    <div class="col-12 col-md-5">
+                        <label class="form-label fw-bold mb-1">Barbeiro</label>
+                        <!-- Friendly picker: input + dropdown list -->
+                        <div class="border rounded p-2 bg-white">
+                        <input
+                            type="text"
+                            id="amBarberSearch"
+                            class="form-control"
+                            placeholder="Buscar barbeiro..."
+                            autocomplete="off"
+                        />
+                        <div id="amBarberList" class="mt-2"></div>
+                        <div id="amBarberPagination" class="d-flex justify-content-between align-items-center mt-2"></div>
+                        <input type="hidden" id="amBarberId" value="" />
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <small class="text-muted" id="amBarberSelectedLabel">Nenhum barbeiro selecionado</small>
+                            <button type="button" id="amClearBarber" class="btn btn-sm btn-outline-dark">Limpar</button>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <label class="form-label fw-bold mb-1">Buscar cliente</label>
+                        <input type="text" id="amClientFilter" class="form-control" placeholder="Nome do cliente..." />
                     </div>
                 </div>
 
-                <div class="col-12 col-md-3">
-                    <label class="form-label fw-bold mb-1">Buscar cliente</label>
-                    <input type="text" id="amClientFilter" class="form-control" placeholder="Nome do cliente..." />
+                <div id="amList" class="mt-3"></div>
+                <div id="amPagination" class="d-flex justify-content-between align-items-center mt-3"></div>
+            </div>
+            </section>
+        
+            <div class="second-container w-100 d-flex justify-content-center mt-5 px-3" id="owner-services">
+                <div class="col-12 col-lg-10">
+                    <h4 class="mb-4 fw-bolder" >Administrar Serviços</h4>
+                    <div class="row mb-3 g-2">
+                        <div class="create-services">
+                            <button class="btn btn-outline-dark">
+                                Criar Serviço <i class="bi bi-plus-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-search row mb-3 g-2">
+                        <div class="col-12 col-md-6">
+                            <input type="text" id="" class="form-control" placeholder="Pesquisar por nome..." width="250">
+                        </div>
+                    </div>
+                    <div id="servicesList" class="mt-3"></div>
                 </div>
             </div>
 
-            <div id="amList" class="mt-3"></div>
-            <div id="amPagination" class="d-flex justify-content-between align-items-center mt-3"></div>
         </div>
-        </section>
 
         <!-- =========================
         MODAL: EDIT APPOINTMENT
@@ -249,25 +271,6 @@
                     Aplicar <i class="bi bi-check2 ms-1"></i>
                 </button>
                 </div>
-            </div>
-        </div>
-        
-        <div class="second-container w-100 d-flex justify-content-center mt-5 px-3" id="owner-services">
-            <div class="col-12 col-lg-10">
-                <h4 class="mb-4 fw-bolder" >Administrar Serviços</h4>
-                <div class="row mb-3 g-2">
-                    <div class="create-services">
-                        <button class="btn btn-outline-dark">
-                            Criar Serviço <i class="bi bi-plus-circle"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="input-search row mb-3 g-2">
-                    <div class="col-12 col-md-6">
-                        <input type="text" id="" class="form-control" placeholder="Pesquisar por nome..." width="250">
-                    </div>
-                </div>
-                <div id="servicesList" class="mt-3"></div>
             </div>
         </div>
 
