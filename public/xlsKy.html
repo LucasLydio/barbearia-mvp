@@ -81,34 +81,174 @@
  
         </div>
 
-        <div id="owner">
-        <!-- Lista de agendamentos -->
-        <div class="second-container w-100 d-flex justify-content-center mt-5 px-3">
-            <div class="col-12 col-lg-10">
-                <h4 class="mb-4 fw-bolder" >Agendamentos do Dia</h4>
-                <button class="btn btn-dark w-100 mb-3" id="openAvailability">
-                    <i class="bi bi-slash-circle me-1"></i> Controlar horários do dia
+        <!-- Teste  -->
+         <!-- =========================
+        APPOINTMENTS MANAGER (COMPONENT)
+        ========================= -->
+        <section class="second-container w-100 d-flex justify-content-center mt-4 px-3" id="owner">
+        <div class="col-12 col-lg-10">
+            <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+            <div>
+                <h4 class="mb-1 fw-bolder">Controle de Agendamentos</h4>
+                <small class="text-muted">Edite, delete e controle horários indisponíveis.</small>
+            </div>
+
+            <button class="btn btn-dark" id="amOpenAvailability">
+                <i class="bi bi-slash-circle me-1"></i> Controlar horários (Indisponível)
+            </button>
+            </div>
+
+            <div class="row g-2 align-items-end mb-3">
+                <div class="col-12 col-md-4">
+                    <label class="form-label fw-bold mb-1">Data</label>
+                    <input type="date" id="amDate" class="form-control" />
+                </div>
+
+                <div class="col-12 col-md-5">
+                    <label class="form-label fw-bold mb-1">Barbeiro</label>
+                    <!-- Friendly picker: input + dropdown list -->
+                    <div class="border rounded p-2 bg-white">
+                    <input
+                        type="text"
+                        id="amBarberSearch"
+                        class="form-control"
+                        placeholder="Buscar barbeiro..."
+                        autocomplete="off"
+                    />
+                    <div id="amBarberList" class="mt-2"></div>
+                    <div id="amBarberPagination" class="d-flex justify-content-between align-items-center mt-2"></div>
+                    <input type="hidden" id="amBarberId" value="" />
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <small class="text-muted" id="amBarberSelectedLabel">Nenhum barbeiro selecionado</small>
+                        <button type="button" id="amClearBarber" class="btn btn-sm btn-outline-dark">Limpar</button>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <label class="form-label fw-bold mb-1">Buscar cliente</label>
+                    <input type="text" id="amClientFilter" class="form-control" placeholder="Nome do cliente..." />
+                </div>
+            </div>
+
+            <div id="amList" class="mt-3"></div>
+            <div id="amPagination" class="d-flex justify-content-between align-items-center mt-3"></div>
+        </div>
+        </section>
+
+        <!-- =========================
+        MODAL: EDIT APPOINTMENT
+        ========================= -->
+        <div class="modal-bg m-1" id="amEditModal" style="display:none">
+            <div class="modal-card">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="m-0">Editar Agendamento</h5>
+                <button class="btn btn-outline-secondary btn-sm" id="amEditClose">
+                    <i class="bi bi-x-lg"></i>
                 </button>
-                <!-- Filtros -->
-                <div class="row mb-3 g-2">
+                </div>
+
+                <div class="border rounded p-2 mb-3 bg-light">
+                <div class="fw-bold" id="amEditTitle">—</div>
+                <small class="text-muted" id="amEditSubtitle">—</small>
+                </div>
+
+                <form id="amEditForm">
+                <input type="hidden" id="amEditId" value="" />
+
+                <div class="row g-2">
                     <div class="col-12 col-md-6">
-                        <input type="text" id="filterName" class="form-control" placeholder="Pesquisar por nome..." width="250">
+                    <label class="form-label fw-bold">Data</label>
+                    <input type="date" class="form-control" id="amEditDate" required />
                     </div>
-                    <div class="col-12 col-md-4">
-                        <input type="date" id="filterDate" class="form-control">
+                    <div class="col-12 col-md-6">
+                    <label class="form-label fw-bold">Hora</label>
+                    <input type="time" class="form-control" id="amEditTime" required />
                     </div>
                 </div>
 
-                <!-- Lista de agendamentos -->
-                <div id="bookingsList" class="mt-3">
-                    <div class="mt-3 mb-2"><strong>Manhã</strong></div>
-                    <div id="manhã" class="my-3"></div>
-                    <div class="mt-3 mb-2"><strong>Tarde</strong></div>
-                    <div id="tarde" class="mb-4"></div>
-                    <div class="mt-3 mb-2"><strong>Cancelados</strong></div>
-                    <div id="cancelados" class="mb-4"></div>
+                <hr class="my-3" />
+
+                <!-- Barber picker inside modal -->
+                <label class="form-label fw-bold">Trocar barbeiro</label>
+                <input type="text" id="amEditBarberSearch" class="form-control" placeholder="Buscar barbeiro..." autocomplete="off" />
+                <div id="amEditBarberList" class="mt-2"></div>
+                <div id="amEditBarberPagination" class="d-flex justify-content-between align-items-center mt-2"></div>
+                <input type="hidden" id="amEditBarberId" value="" />
+
+                <hr class="my-3" />
+
+                <!-- Services picker (multi) -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <label class="form-label fw-bold m-0">Serviços</label>
+                    <small class="text-muted" id="amEditServicesHint">Selecione 1+ serviços</small>
                 </div>
 
+                <input
+                    type="text"
+                    id="amEditServiceSearch"
+                    class="form-control mt-2"
+                    placeholder="Buscar serviço..."
+                    autocomplete="off"
+                />
+
+                <div id="amEditServiceList" class="mt-2"></div>
+                <div id="amEditServicePagination" class="d-flex justify-content-between align-items-center mt-2"></div>
+
+                <div class="mb-2 mt-3">
+                    <label class="form-label fw-bold">Observações</label>
+                    <input type="text" class="form-control" id="amEditNote" placeholder="Opcional..." />
+                </div>
+
+                <div class="d-flex gap-2 mt-3">
+                    <button type="submit" class="btn btn-dark flex-grow-1" id="amEditSaveBtn">
+                    Salvar alterações <i class="bi bi-check2-circle ms-1"></i>
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- =========================
+        MODAL: CONTROL AVAILABILITY
+        ========================= -->
+        <div class="modal-bg m-1" id="amAvailModal" style="display:none">
+            <div class="modal-card">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="m-0">Controlar Horários</h5>
+                <button class="btn btn-outline-secondary btn-sm" id="amAvailClose">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+                </div>
+
+                <div class="row g-2 mb-2">
+                <div class="col-12 col-md-6">
+                    <label class="form-label fw-bold">Data</label>
+                    <input type="date" id="amAvailDate" class="form-control" />
+                </div>
+                <div class="col-12 col-md-6">
+                    <label class="form-label fw-bold">Aplicar em</label>
+                    <select id="amAvailScope" class="form-select">
+                    <option value="one">Apenas barbeiro selecionado</option>
+                    <option value="all">Todos os barbeiros</option>
+                    </select>
+                </div>
+                </div>
+
+                <div class="border rounded p-2 mb-2 bg-light">
+                <small class="text-muted">
+                    Selecione horários para <b>bloquear</b> (cria agendamento com cliente <b>INDISPONIVEL</b>).
+                    Se o horário já estiver bloqueado, você pode <b>desbloquear</b>.
+                </small>
+                </div>
+
+                <div id="amAvailGrid" class="d-flex flex-wrap gap-2 mt-2"></div>
+
+                <div class="d-flex gap-2 mt-3">
+                <button class="btn btn-dark flex-grow-1" id="amAvailApply">
+                    Aplicar <i class="bi bi-check2 ms-1"></i>
+                </button>
+                </div>
             </div>
         </div>
         
@@ -127,13 +267,66 @@
                         <input type="text" id="" class="form-control" placeholder="Pesquisar por nome..." width="250">
                     </div>
                 </div>
-
                 <div id="servicesList" class="mt-3"></div>
+            </div>
+        </div>
+
+
+        <!-- MODAL EDITAR SERVIÇO -->
+        <div class="modal-bg m-1" id="editServiceModal" style="display:none;">
+            <div class="modal-card" style="max-width:370px;">
+                <h5 class="mb-3" id="editServiceTitle">Editar Serviço</h5>
+                <form id="editServiceForm">
+                    <input type="hidden" id="editServiceId">
+                    <div class="mb-2">
+                        <label for="editServiceName" class="form-label">Nome do Serviço</label>
+                        <input type="text" class="form-control" id="editServiceName" required maxlength="40" placeholder="Ex: Corte, Barba...">
+                    </div>
+                    <div class="mb-2">
+                        <label for="editServicePrice" class="form-label">Preço (R$)</label>
+                        <input type="number" class="form-control" id="editServicePrice" min="0" step="0.01" required placeholder="Ex: 40.00">
+                    </div>
+                    <div class="mb-2">
+                        <label for="editServiceDuration" class="form-label">Duração (minutos)</label>
+                        <input type="number" class="form-control" id="editServiceDuration" min="10" max="180" step="5" required placeholder="Ex: 60">
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100 mt-2">Salvar alterações</button>
+                </form>
+                <div class="modal-actions mt-3">
+                <button class="btn btn-outline-secondary w-100" id="closeEditServiceModal">Fechar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="owner" class="d-none">
+        <div class="second-container w-100 d-flex justify-content-center mt-5 px-3">
+            <div class="col-12 col-lg-10">
+                <h4 class="mb-4 fw-bolder" >Agendamentos do Dia</h4>
+                <button class="btn btn-dark w-100 mb-3" id="openAvailability">
+                    <i class="bi bi-slash-circle me-1"></i> Controlar horários do dia
+                </button>
+                <div class="row mb-3 g-2">
+                    <div class="col-12 col-md-6">
+                        <input type="text" id="filterName" class="form-control" placeholder="Pesquisar por nome..." width="250">
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <input type="date" id="filterDate" class="form-control">
+                    </div>
+                </div>
+
+                <div id="bookingsList" class="mt-3">
+                    <div class="mt-3 mb-2"><strong>Manhã</strong></div>
+                    <div id="manhã" class="my-3"></div>
+                    <div class="mt-3 mb-2"><strong>Tarde</strong></div>
+                    <div id="tarde" class="mb-4"></div>
+                    <div class="mt-3 mb-2"><strong>Cancelados</strong></div>
+                    <div id="cancelados" class="mb-4"></div>
+                </div>
 
             </div>
         </div>
 
-        </div>
+        </div> 
 
         <!-- MODAL -->
         <div class="modal-bg m-1" id="dayModal" style="display:none">
@@ -182,7 +375,6 @@
                         </button>
                     </div>
 
-                    <!-- Selected client preview -->
                     <div class="mb-2">
                         <div class="border rounded px-3 py-2 d-flex justify-content-between align-items-center">
                             <div>
@@ -194,7 +386,6 @@
                         <input type="hidden" id="apptClientId" value="">
                     </div>
 
-                    <!-- Paginated list -->
                     <div id="apptClientList" class="mt-2"></div>
                     <div id="apptClientPagination" class="d-flex justify-content-between align-items-center mt-2"></div>
 
@@ -250,7 +441,6 @@
             </div>
             <div class="mb-2">
                 <label class="form-label">Serviço</label>
-                <!-- Exibição atual -->
                 <div id="serviceDisplayDiv" class="d-flex align-items-center gap-2" style="display: flex-column;">
                     <input type="text" class="form-control" id="editAppointmentService" readonly style="background:#e9ecef;">
                     <input type="hidden" id="editAppointmentServiceId" name="editAppointmentServiceId" value="">
@@ -258,7 +448,6 @@
                     <i class="bi bi-pencil-square"></i>
                     </button>
                 </div>
-                <!-- Edição oculta -->
                 <div id="serviceEditDiv" style="display:none">
                     <input type="text" class="form-control mb-2 mt-2" id="serviceSearchEdit" placeholder="Pesquisar serviço...">
                     <div id="servicesListEdit"></div>
@@ -289,33 +478,6 @@
             </form>
         </div>
         </div>
-
-
-        <!-- MODAL EDITAR SERVIÇO -->
-        <div class="modal-bg m-1" id="editServiceModal" style="display:none;">
-            <div class="modal-card" style="max-width:370px;">
-                <h5 class="mb-3" id="editServiceTitle">Editar Serviço</h5>
-                <form id="editServiceForm">
-                    <input type="hidden" id="editServiceId">
-                    <div class="mb-2">
-                        <label for="editServiceName" class="form-label">Nome do Serviço</label>
-                        <input type="text" class="form-control" id="editServiceName" required maxlength="40" placeholder="Ex: Corte, Barba...">
-                    </div>
-                    <div class="mb-2">
-                        <label for="editServicePrice" class="form-label">Preço (R$)</label>
-                        <input type="number" class="form-control" id="editServicePrice" min="0" step="0.01" required placeholder="Ex: 40.00">
-                    </div>
-                    <div class="mb-2">
-                        <label for="editServiceDuration" class="form-label">Duração (minutos)</label>
-                        <input type="number" class="form-control" id="editServiceDuration" min="10" max="180" step="5" required placeholder="Ex: 60">
-                    </div>
-                    <button type="submit" class="btn btn-dark w-100 mt-2">Salvar alterações</button>
-                </form>
-                <div class="modal-actions mt-3">
-                <button class="btn btn-outline-secondary w-100" id="closeEditServiceModal">Fechar</button>
-                </div>
-            </div>
-        </div>
         
         <!-- MODAL: Controle de Horários -->
         <div class="modal-bg m-1" id="availabilityModal" style="display:none">
@@ -334,7 +496,6 @@
 
             <hr class="my-2">
 
-            <!-- Date + Search -->
             <div class="row g-2 align-items-end">
             <div class="col-7">
                 <label for="availabilityDate" class="form-label fw-semibold mb-1">Data</label>
@@ -353,7 +514,6 @@
             </div>
             </div>
 
-            <!-- Legend -->
             <div class="d-flex flex-wrap gap-2 mt-3">
             <span class="badge bg-success">Disponível</span>
             <span class="badge bg-secondary">Indisponível</span>
@@ -362,14 +522,11 @@
             <span class="badge bg-info text-dark">Desbloquear</span>
             </div>
 
-            <!-- Grid -->
             <div class="mt-3" id="availabilityGrid">
-            <!-- JS renders time chips here -->
             </div>
 
             <hr class="my-3">
 
-            <!-- Actions -->
             <div class="d-flex gap-2">
             <button type="button" class="btn btn-dark w-100" id="applyAvailability" disabled>
                 Salvar alterações
@@ -381,6 +538,7 @@
 
         </div>
         </div>
+
 
 
 
@@ -402,6 +560,12 @@
     <script src="js/xlsKy/xlsKy-appt/xlsKy-appt6.js"></script>
     <script src="js/xlsKy/xlsKy4.js"></script>
     <script src="js/xlsKy/xlsKy5.js"></script>
+    <script src="js/appointments-manager.js"></script>
     <script src="js/include.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        AppointmentsManager.init({ tokenKey: "valette_barber_token" });
+    });
+    </script>
 </body>
 </html>

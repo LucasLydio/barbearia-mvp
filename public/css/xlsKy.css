@@ -110,8 +110,8 @@ main {
         overflow-y: auto;
     }
 
-    #manhã, #tarde, #cancelados {
-        max-height: 220px;
+    #manhã, #tarde, #cancelados, .section-time {
+        max-height: 420px;
         overflow-y: auto;
         padding-inline: .5rem;
         padding-block: .5rem;
