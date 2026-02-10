@@ -41,6 +41,7 @@ function renderBookings() {
     ag.date === dateTerm
   );
 
+
   // Separa manhã, tarde e cancelados
   const manha = [];
   const tarde = [];
@@ -59,19 +60,19 @@ function renderBookings() {
     }
   });
 
-  // Renderiza manhã
   const manhaDiv = document.getElementById('manhã');
   manhaDiv.innerHTML = manha.length
     ? manha.map(renderBookingCard).join('')
     : '<div class="text-muted py-2">Nenhum agendamento pela manhã.</div>';
 
-  // Renderiza tarde
+
+
   const tardeDiv = document.getElementById('tarde');
   tardeDiv.innerHTML = tarde.length
     ? tarde.map(renderBookingCard).join('')
     : '<div class="text-muted py-2">Nenhum agendamento à tarde.</div>';
 
-  // Renderiza cancelados
+
   const canceladosDiv = document.getElementById('cancelados');
   canceladosDiv.innerHTML = cancelados.length
     ? cancelados.map(renderBookingCard).join('')

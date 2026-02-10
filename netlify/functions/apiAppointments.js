@@ -64,6 +64,7 @@ async function getAppointmentsByBarber(barber_id, { page = 1, limit = 10, date, 
     `, { count: 'exact' })
     .eq('barber_id', barber_id)
     .order('date', { ascending: true })
+    .order('time', { ascending: true })
     .range(from, to);
 
   if (date) query = query.eq('date', date);

@@ -347,10 +347,10 @@ function renderAppointments() {
     else tarde.push(ag);
   });
 
-  // Ordena por hora desc (mais recente em cima)
-  const sortByTimeDesc = (a, b) => safeText(b.time).localeCompare(safeText(a.time));
-  manha.sort(sortByTimeDesc);
-  tarde.sort(sortByTimeDesc);
+const sortByTimeAsc = (a, b) => safeText(a.time).localeCompare(safeText(b.time));
+
+manha.sort(sortByTimeAsc);
+tarde.sort(sortByTimeAsc);
 
   const renderCard = (ag) => {
     const servicos = appointmentServiceNames(ag) || "—";
