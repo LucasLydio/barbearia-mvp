@@ -5,9 +5,7 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-/**
- * Busca todos os clientes, com paginação e filtro opcional por nome
- */
+
 async function getAllClients({ page = 1, limit = 20, name } = {}) {
   const from = (page - 1) * limit;
   const to = from + limit - 1;
@@ -18,7 +16,7 @@ async function getAllClients({ page = 1, limit = 20, name } = {}) {
     .order('name', { ascending: true })
     .range(from, to);
 
-  // Filtro opcional por nome (case-insensitive, parcial)
+
   if (name) query = query.ilike('name', `%${name}%`);
 
   const { data, error, count } = await query;
@@ -26,9 +24,6 @@ async function getAllClients({ page = 1, limit = 20, name } = {}) {
   return { data, count };
 }
 
-/**
- * Busca cliente específico pelo id (UUID)
- */
 async function getClientById(client_id) {
   const { data, error } = await supabase
     .from('clients')

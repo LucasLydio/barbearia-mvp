@@ -5,7 +5,7 @@ exports.handler = async function(event, context) {
   try {
     const { client_id, page, limit, name } = event.queryStringParameters || {};
 
-    // Se veio client_id, busca 1 específico
+
     if (client_id) {
       const data = await getClientById(client_id);
 
@@ -19,7 +19,6 @@ exports.handler = async function(event, context) {
       };
     }
 
-    // Senão, lista todos (paginado e filtrado)
     const pageInt = parseInt(page) || 1;
     const limitInt = parseInt(limit) || 20;
 

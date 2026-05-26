@@ -3,6 +3,33 @@
 document.addEventListener('DOMContentLoaded', () => {
   const summaryList = document.getElementById('summary-list');
 
+  function timeToMinutes(hhmm) {
+    if (!hhmm || typeof hhmm !== 'string') return NaN;
+    const [hStr, mStr] = hhmm.split(':');
+    const h = Number(hStr);
+    const m = Number(mStr);
+    if (!Number.isFinite(h) || !Number.isFinite(m)) return NaN;
+    return h * 60 + m;
+  }
+
+  function sortTimes(times) {
+    return [...times].sort((a, b) => timeToMinutes(a) - timeToMinutes(b));
+  }
+
+  function isConsecutivePair(times) {
+    if (!Array.isArray(times) || times.length !== 2) return false;
+    const [t1, t2] = sortTimes(times);
+    const m1 = timeToMinutes(t1);
+    const m2 = timeToMinutes(t2);
+    return Number.isFinite(m1) && Number.isFinite(m2) && (m2 - m1 === 30);
+  }
+
+  function getArray(value) {
+    if (Array.isArray(value)) return value.filter(Boolean);
+    if (value === null || value === undefined || value === '') return [];
+    return [value];
+  }
+
   
   const whatsappBtn = document.getElementById("confirmBooking");
   if (whatsappBtn) {
@@ -14,30 +41,47 @@ document.addEventListener('DOMContentLoaded', () => {
         whatsappBtn.disabled = true;
 
         try {
-          const payload = {
-            service_id: Array.isArray(formData.service)
-              ? formData.service
-              : [formData.service]
-            , 
+          const services = getArray(formData.service);
+          const times = getArray(formData.time);
+          const isMultiService = services.length > 1;
+
+          const basePayload = {
+            service_id: services,
             date: formData.date,
-            time: formData.time,
             barber_id: formData.barber,
             client_id: formData.clientId,
             note: formData.note || '',
-            phone: 55 + formData.telephone || 0,
+            phone: formData.telephone ? `55${formData.telephone}` : 0,
           };
 
-          console.log('Enviando payload para salvar agendamento:', payload);
+          let payloads = [];
+          if (isMultiService) {
+            if (times.length !== 2 || !isConsecutivePair(times)) {
+              throw new Error('Escolha dois horarios consecutivos (ex: 10:00 e 10:30).');
+            }
+            payloads = sortTimes(times).map((t) => ({ ...basePayload, time: t }));
+          } else {
+            if (times.length !== 1) {
+              throw new Error('Escolha um horario disponivel.');
+            }
+            payloads = [{ ...basePayload, time: times[0] }];
+          }
 
-          const res = await fetch('/.netlify/functions/appointments-post', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(payload)
-          });
+          console.log('Enviando payload(s) para salvar agendamento:', payloads);
 
-          if (!res.ok) {
-            throw new Error('Erro ao finalizar agendamento!');
-          } 
+          for (let i = 0; i < payloads.length; i++) {
+            const payload = payloads[i];
+            const res = await fetch('/.netlify/functions/appointments-post', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) {
+              const suffix = payloads.length > 1 ? ` (parte ${i + 1}/${payloads.length})` : '';
+              throw new Error(`Erro ao finalizar agendamento${suffix}!`);
+            }
+          }
 
           showStep(6);
 
@@ -61,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     summaryList.innerHTML = `
       <li class="list-group-item"><strong>Serviços:</strong> ${Array.isArray(formData.serviceName) ? formData.serviceName.join(', ') : formData.serviceName}</li>
       <li class="list-group-item"><strong>Data:</strong> ${formatDateBR(formData.date)}</li>
-      <li class="list-group-item"><strong>Hora:</strong> ${formData.time}</li>
+      <li class="list-group-item"><strong>Hora:</strong> ${Array.isArray(formData.time) ? formData.time.join(' e ') : formData.time}</li>
       <li class="list-group-item"><strong>Barbeiro:</strong> ${formData.barberName || formData.barber}</li>
       <li class="list-group-item"><strong>Nome:</strong> ${formData.clientName}</li>
       <li class="list-group-item"><strong>Telefone:</strong> ${formData.telephone}</li>

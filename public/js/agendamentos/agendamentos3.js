@@ -5,13 +5,13 @@
 // - Friendly UX + safe guards to avoid undefined crashes
 
 (function () {
-  // Ensure global formData exists
-  window.formData = window.formData || {
-    date: "",
-    time: "",
-    barber: null,
-    barberName: null,
-  };
+  // Ensure global formData exists (do NOT overwrite if already created by other steps)
+  window.formData = window.formData || {};
+  if (typeof window.formData.date !== "string") window.formData.date = "";
+  if (typeof window.formData.time !== "string" && !Array.isArray(window.formData.time)) window.formData.time = "";
+  if (typeof window.formData.barber !== "string" && window.formData.barber !== null) window.formData.barber = null;
+  if (typeof window.formData.barberName !== "string" && window.formData.barberName !== null) window.formData.barberName = null;
+  if (!Array.isArray(window.formData.service)) window.formData.service = [];
 
   // ====== DOM refs (Step 2) ======
   const dateInput = document.getElementById("date");
@@ -67,6 +67,27 @@
     // "HH:MM:SS" -> "HH:MM"
     if (!t) return "";
     return String(t).slice(0, 5);
+  }
+
+  function timeToMinutes(hhmm) {
+    if (!hhmm || typeof hhmm !== "string") return NaN;
+    const [hStr, mStr] = hhmm.split(":");
+    const h = Number(hStr);
+    const m = Number(mStr);
+    if (!Number.isFinite(h) || !Number.isFinite(m)) return NaN;
+    return h * 60 + m;
+  }
+
+  function sortTimes(times) {
+    return [...times].sort((a, b) => timeToMinutes(a) - timeToMinutes(b));
+  }
+
+  function isConsecutivePair(times) {
+    if (!Array.isArray(times) || times.length !== 2) return false;
+    const [t1, t2] = sortTimes(times);
+    const m1 = timeToMinutes(t1);
+    const m2 = timeToMinutes(t2);
+    return Number.isFinite(m1) && Number.isFinite(m2) && (m2 - m1 === 30);
   }
 
   // ====== Time slots (mock) ======
@@ -132,6 +153,15 @@
       return;
     }
 
+    const isMultiService = Array.isArray(window.formData.service) && window.formData.service.length > 1;
+
+    // Initialize window.formData.time correctly based on the current condition
+    if (isMultiService) {
+      if (!Array.isArray(window.formData.time)) window.formData.time = [];
+    } else {
+      if (typeof window.formData.time !== "string") window.formData.time = "";
+    }
+
     availableTimes.forEach((time) => {
       const btn = document.createElement("button");
       btn.type = "button";
@@ -140,9 +170,51 @@
       btn.dataset.value = time;
 
       btn.addEventListener("click", () => {
-        horariosList.querySelectorAll(".horario-toggle").forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        window.formData.time = time;
+        // Multi-service: user must pick exactly 2 consecutive slots
+        if (isMultiService) {
+          const isActivating = !btn.classList.contains("active");
+
+          if (!Array.isArray(window.formData.time)) window.formData.time = [];
+
+          if (isActivating) {
+            if (window.formData.time.length >= 2) {
+              alert("Escolha apenas dois horarios consecutivos.");
+              return;
+            }
+
+            btn.classList.add("active");
+            if (!window.formData.time.includes(time)) window.formData.time.push(time);
+
+            // When the second slot is selected, enforce consecutive rule
+            if (window.formData.time.length === 2 && !isConsecutivePair(window.formData.time)) {
+              btn.classList.remove("active");
+              window.formData.time = window.formData.time.filter((t) => t !== time);
+              alert("Os horarios precisam ser consecutivos (ex: 10:00 e 10:30).");
+              return;
+            }
+
+            window.formData.time = sortTimes(window.formData.time);
+          } else {
+            btn.classList.remove("active");
+            window.formData.time = window.formData.time.filter((t) => t !== time);
+          }
+        }
+        // CONDITION NOT MET: Single-select behavior
+        else {
+          const alreadyActive = btn.classList.contains("active");
+
+          // Clear all other active buttons
+          horariosList.querySelectorAll(".horario-toggle").forEach((b) => b.classList.remove("active"));
+
+          if (alreadyActive) {
+            // If clicking the already active single button, deselect it completely
+            window.formData.time = "";
+          } else {
+            // Select this one
+            btn.classList.add("active");
+            window.formData.time = time;
+          }
+        }
       });
 
       horariosList.appendChild(btn);
@@ -167,7 +239,8 @@
     const barberId = window.formData.barber;
 
     // Reset selected time every refresh
-    window.formData.time = "";
+    const isMultiService = Array.isArray(window.formData.service) && window.formData.service.length > 1;
+    window.formData.time = isMultiService ? [] : "";
     clearSelectedTimeUI();
 
     if (!dateYMD) {
@@ -195,6 +268,11 @@
     // console.log(formData.barberName, busyTimes)
     const allTimes = getMockTimes(dateInput);
     const availableTimes = allTimes.filter((t) => !busyTimes.includes(t));
+
+    if (false) {
+      alert("Escolha dois horários!");
+      
+    }
 
     renderTimeToggles(availableTimes);
     // console.log(availableTimes)
@@ -331,10 +409,20 @@
       barbersList.scrollIntoView({ behavior: "smooth", block: "start" });
       return showStep(2);
     }
-    if (!window.formData.time) {
-      alert("Escolha um horário disponível!");
-      horariosArea.scrollIntoView({ behavior: "smooth", block: "start" });
-      return showStep(2);
+
+    const isMultiService = Array.isArray(window.formData.service) && window.formData.service.length > 1;
+    if (isMultiService) {
+      if (!Array.isArray(window.formData.time) || window.formData.time.length !== 2 || !isConsecutivePair(window.formData.time)) {
+        alert("Escolha dois horarios consecutivos (ex: 10:00 e 10:30).");
+        horariosArea.scrollIntoView({ behavior: "smooth", block: "start" });
+        return showStep(2);
+      }
+    } else {
+      if (!window.formData.time || typeof window.formData.time !== "string") {
+        alert("Escolha um horario disponivel!");
+        horariosArea.scrollIntoView({ behavior: "smooth", block: "start" });
+        return showStep(2);
+      }
     }
     if (typeof showStep === "function") showStep(4); 
 
