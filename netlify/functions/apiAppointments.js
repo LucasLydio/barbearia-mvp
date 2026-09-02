@@ -7,14 +7,7 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Index geral, com paginação (page, limit)
-async function getAllAppointments({ page = 1, limit = 10, date }) {
-  const from = (page - 1) * limit;
-  const to = from + limit - 1;
-
-  let query = supabase
-    .from('appointments')
-    .select(`
+const APPOINTMENT_FULL_SELECT = `
       *,
       barbers(name),
       clients(name, telephone),
@@ -27,12 +20,41 @@ async function getAllAppointments({ page = 1, limit = 10, date }) {
           duration
         )
       )
-    `, { count: 'exact' })
-    .order('date', { ascending: true })
-    .order('time', { ascending: true })
+    `;
+
+function selectAppointments(fields) {
+  const isCalendarQuery = fields === 'calendar';
+  const columns = isCalendarQuery ? 'id, date' : APPOINTMENT_FULL_SELECT;
+  const query = supabase.from('appointments');
+
+  return isCalendarQuery
+    ? query.select(columns)
+    : query.select(columns, { count: 'exact' });
+}
+
+function applyDateFilters(query, { date, start_date, end_date } = {}) {
+  if (date) return query.eq('date', date);
+  if (start_date) query = query.gte('date', start_date);
+  if (end_date) query = query.lte('date', end_date);
+  return query;
+}
+
+function orderAppointments(query, fields, dateAscending = true) {
+  query = query.order('date', { ascending: dateAscending });
+  return fields === 'calendar'
+    ? query
+    : query.order('time', { ascending: true });
+}
+
+// Index geral, com paginação (page, limit)
+async function getAllAppointments({ page = 1, limit = 10, date, start_date, end_date, fields }) {
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
+
+  let query = orderAppointments(selectAppointments(fields), fields, true)
     .range(from, to);
 
-  if (date) query = query.eq('date', date);
+  query = applyDateFilters(query, { date, start_date, end_date });
 
   const { data, error, count } = await query;
 
@@ -42,34 +64,17 @@ async function getAllAppointments({ page = 1, limit = 10, date }) {
 
 
 // Index filtrando por barbeiro, com paginação
-async function getAppointmentsByBarber(barber_id, { page = 1, limit = 10, date, client_name }) {
+async function getAppointmentsByBarber(barber_id, { page = 1, limit = 10, date, client_name, start_date, end_date, fields }) {
   const from = (page - 1) * limit;
   const to = from + limit - 1;
 
-  let query = supabase
-    .from('appointments')
-    .select(`
-      *,
-      barbers(name),
-      clients(name, telephone),
-      appointment_services (
-        id,
-        service_id,
-        services (
-          name,
-          price,
-          duration
-        )
-      )
-    `, { count: 'exact' })
-    .eq('barber_id', barber_id)
-    .order('date', { ascending: true })
-    .order('time', { ascending: true })
-    .range(from, to);
+  let query = orderAppointments(
+    selectAppointments(fields).eq('barber_id', barber_id),
+    fields,
+    true
+  ).range(from, to);
 
-  if (date) query = query.eq('date', date);
-
-  console.log('datate filter:', date);
+  query = applyDateFilters(query, { date, start_date, end_date });
 
   if (client_name) query = query.ilike('clients.name', `%${client_name}%`);
 
@@ -81,34 +86,19 @@ async function getAppointmentsByBarber(barber_id, { page = 1, limit = 10, date, 
 
 
 // Index filtrando por cliente, com paginação
-async function getAppointmentsByClient(client_id, { page = 1, limit = 10, date, barber_name }) {
+async function getAppointmentsByClient(client_id, { page = 1, limit = 10, date, barber_name, start_date, end_date, fields }) {
   const from = (page - 1) * limit;
   const to = from + limit - 1;
 
   console.log('Filtering appointments for client_id:', client_id);
 
-  let query = supabase
-    .from('appointments')
-    .select(`
-      *,
-      barbers(name),
-      clients(name, telephone),
-      appointment_services (
-        id,
-        service_id,
-        services (
-          name,
-          price,
-          duration
-        )
-      )
-    `, { count: 'exact' })
-    .eq('client_id', client_id)
-    .order('date', { ascending: false })   // Ordem decrescente (mais recente primeiro)
-    .order('time', { ascending: true })   // (Opcional) Mais recente no dia primeiro
-    .range(from, to);
+  let query = orderAppointments(
+    selectAppointments(fields).eq('client_id', client_id),
+    fields,
+    false
+  ).range(from, to);
 
-  if (date) query = query.eq('date', date);
+  query = applyDateFilters(query, { date, start_date, end_date });
 
   // Filtrar por nome do barbeiro (case-insensitive, parcial)
   if (barber_name) query = query.ilike('barbers.name', `%${barber_name}%`);

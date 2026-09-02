@@ -13,7 +13,8 @@ exports.handler = async function(event, context) {
       client_name, 
       barber_name,
       start_date,   // <-- novo
-      end_date      // <-- novo
+      end_date,     // <-- novo
+      fields
     } = event.queryStringParameters || {};
 
     const pageInt = parseInt(page) || 1;
@@ -28,7 +29,8 @@ exports.handler = async function(event, context) {
         date,
         client_name,
         start_date,
-        end_date
+        end_date,
+        fields
       });
     } else if (client_id) {
       console.log('Filtrando por client_id:', client_id);
@@ -38,7 +40,8 @@ exports.handler = async function(event, context) {
         date,
         barber_name,
         start_date,
-        end_date
+        end_date,
+        fields
       });
     } else {
       console.log('Buscando todos os agendamentos');
@@ -47,7 +50,8 @@ exports.handler = async function(event, context) {
         limit: limitInt,
         start_date,
         end_date,
-        date
+        date,
+        fields
       });
     }
 

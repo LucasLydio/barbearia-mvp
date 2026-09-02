@@ -42,18 +42,22 @@ async function fetchAppointmentsMonth(month, year) {
   const startDate = `${year}-${String(month + 1).padStart(2,'0')}-01`;
   const endDate = ymdLocal(new Date(year, month + 1, 0));
 
-  const limit = 300;        
+  const limit = 1000;
   let page = 1;
   let all = [];
 
   while (true) {
-    const url =
-      `/.netlify/functions/appointments-get` +
-      `?barber_id=${encodeURIComponent(barber_id)}` +   
-      `&start_date=${startDate}&end_date=${endDate}` +
-      `&page=${page}&limit=${limit}`;
+    const params = new URLSearchParams({
+      start_date: startDate,
+      end_date: endDate,
+      page: String(page),
+      limit: String(limit),
+      fields: 'calendar',
+    });
 
-    const res = await fetch(url);
+    if (barber_id) params.set('barber_id', barber_id);
+
+    const res = await fetch(`/.netlify/functions/appointments-get?${params.toString()}`);
     const { data } = await res.json();
 
     const batch = data || [];
@@ -69,8 +73,14 @@ async function fetchAppointmentsMonth(month, year) {
 
 
 async function fetchAppointmentsByDay(dateYMD) {
-  const url = `/.netlify/functions/appointments-get?date=${dateYMD}&limit=200`;
-  const res = await fetch(url);
+  const params = new URLSearchParams({
+    date: dateYMD,
+    limit: '200',
+  });
+
+  if (barber_id) params.set('barber_id', barber_id);
+
+  const res = await fetch(`/.netlify/functions/appointments-get?${params.toString()}`);
   const { data } = await res.json();
   return data || [];
 }
